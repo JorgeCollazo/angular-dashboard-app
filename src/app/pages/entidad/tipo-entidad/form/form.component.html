@@ -1,0 +1,55 @@
+<app-loading-page *ngIf="loadingPage"></app-loading-page>
+
+<div *ngIf="!loadingPage">
+    <app-header>
+    </app-header>
+
+    <div class="card">
+        <div class="card-body">
+            <form class="row g-3 needs-validation" [formGroup]="formulario" (ngSubmit)="btnSave()" autocomplete="off"
+                novalidate>
+                <div class="col-md-3">
+                    <label for="mant_nombre" class="form-label text-muted fw-bold">Nombre</label>
+                    <input type="text" class="form-control" id="mant_nombre" value=""
+                        placeholder="Nombre del Ej.: Proveedor" formControlName="mant_nombre"
+                        [ngClass]="{ 'is-invalid':(frmCrtl['mant_nombre'].touched) && frmCrtl['mant_nombre'].errors }">
+                    <div class="invalid-feedback">
+                        El campo <strong>Nombre</strong> es requerido.
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="d-flex flex-wrap justify-content-between">
+                        <div>
+                            <input type="checkbox" class="custom-control-input m-1" id="mant_activo"
+                                formControlName="mant_activo">
+                            <label class="custom-control-label text-muted fw-bold" for="mant_activo"> Activo</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <app-button-form-footer [formIsValid]="!formulario.valid"
+                        [BtnClearIsVisible]="btnAction.BtnClearIsVisible"
+                        [BtnSaveIsVisible]="btnAction.BtnSaveIsVisible" [loadingRequest]="loadingRequest"
+                        (Clear)="btnClear()" (Return)="btnToReturn()" (Save)="btnSave()">
+                    </app-button-form-footer>
+                </div>
+            </form>
+
+            <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" *ngIf="messageApi!=''">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                    class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                </svg>
+                <strong>{{messageApi}}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<app-mdl-message-action [mdlTitle]="'Aviso'" [action]="'new'" [msg]="mdlMsg" [show]="mdlShow" (Yes)="btnYes()" (No)="btnNo()">
+</app-mdl-message-action>

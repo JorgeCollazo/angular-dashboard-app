@@ -1,0 +1,28 @@
+/* You can add global styles to this file, and also import other style files */
+:root {
+  --theme-bg-image-gradient: linear-gradient(0deg, #00709b 10%, #7bebff 100%) !important;
+}
+
+a {
+  color: #0061f2;
+  text-decoration: none;
+}
+
+.feather-xl {
+  height: 2.5rem !important;
+  width: 2.5rem !important;
+}
+
+.text-lg {
+  font-size: 1.25rem !important;
+}
+
+.table>:not(:first-child) {
+  border-top: none !important;
+}
+
+.pointer {
+  cursor: pointer;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

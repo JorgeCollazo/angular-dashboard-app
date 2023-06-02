@@ -1,0 +1,112 @@
+<app-loading-page *ngIf="loadingPage"></app-loading-page>
+
+<div *ngIf="!loadingPage">
+    <app-header>
+    </app-header>
+
+    <div class="card">
+        <div class="card-body">
+            <form class="row g-3 needs-validation" [formGroup]="formulario" (ngSubmit)="btnSave()" autocomplete="off"
+                novalidate>
+                <div class="col-md-3">
+                    <label for="nombre" class="form-label text-muted fw-bold">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" value=""
+                        placeholder="Nombre del menu Ej.: Usuarios" formControlName="nombre"
+                        [ngClass]="{ 'is-invalid':(frmCrtl['nombre'].touched) && frmCrtl['nombre'].errors }">
+                    <div class="invalid-feedback">
+                        El campo <strong>Nombre</strong> es requerido.
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label for="link" class="form-label text-muted fw-bold">Url</label>
+                    <input type="text" class="form-control" id="link" value=""
+                        placeholder="Ruta del menu Ej.: /usuarios/list" formControlName="link"
+                        [ngClass]="{ 'is-invalid':(frmCrtl['link'].touched) && frmCrtl['link'].errors }">
+                    <div class="invalid-feedback">
+                        El campo <strong>Url</strong> es requerido.
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label for="nivel" class="form-label text-muted fw-bold">Nivel</label>
+                    <select class="form-select" id="nivel" formControlName="nivel"
+                        [ngClass]="{ 'is-invalid':(frmCrtl['nivel'].touched) && frmCrtl['nivel'].errors }">
+                        <option selected disabled value="">Seleccione</option>
+                        <option value="0">Super Administrador</option>
+                        <option value="1">Propietario</option>
+                        <option value="2">Todos</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        El campo <strong>Nivel</strong> es requerido.
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label for="orden" class="form-label text-muted fw-bold">Orden</label>
+                    <input type="number" class="form-control" id="orden" value=""
+                        placeholder="Orden en que se muestra el menu" formControlName="orden"
+                        [ngClass]="{ 'is-invalid':(frmCrtl['orden'].touched) && frmCrtl['orden'].errors }">
+                    <div class="invalid-feedback">
+                        El campo <strong>Orden</strong> es requerido.
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label for="padre" class="form-label text-muted fw-bold">Padre</label>
+                    <select class="form-select" id="padre" formControlName="padre"
+                        [ngClass]="{ 'is-invalid':(frmCrtl['padre'].touched) && frmCrtl['padre'].errors }">
+                        <option selected value="0">Es Padre</option>
+                        <optgroup label="Menu padre">
+                            <option value="{{a.id_menu}}" *ngFor="let a of ListMenuPadre">{{a.nombre}}</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="col-md-9">
+                    <label for="descripcion" class="form-label text-muted fw-bold">Descripción</label>
+                    <textarea class="form-control" name="descripcion" id="descripcion" rows="2"
+                        placeholder="Describe que puede hacer en este menu" formControlName="descripcion"></textarea>
+                </div>
+                <div class="col-md-12">
+                    <div class="d-flex flex-wrap justify-content-between">
+                        <div>
+                            <input type="checkbox" class="custom-control-input m-1" id="status"
+                                formControlName="status">
+                            <label class="custom-control-label text-muted fw-bold" for="status"> Activo</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" class="custom-control-input m-1" id="sw_display"
+                                formControlName="sw_display">
+                            <label class="custom-control-label text-muted fw-bold" for="sw_display"> Mostrar</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" class="custom-control-input m-1" id="sw_admin"
+                                formControlName="sw_admin">
+                            <label class="custom-control-label text-muted fw-bold" for="sw_admin"> Es de
+                                adminstrador</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <app-button-form-footer [formIsValid]="!formulario.valid"
+                        [BtnClearIsVisible]="btnAction.BtnClearIsVisible"
+                        [BtnSaveIsVisible]="btnAction.BtnSaveIsVisible" [loadingRequest]="loadingRequest"
+                        (Clear)="btnClear()" (Return)="btnToReturn()" (Save)="btnSave()">
+                    </app-button-form-footer>
+                </div>
+            </form>
+
+            <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" *ngIf="messageApi!=''">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                    class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                </svg>
+                <strong>{{messageApi}}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<app-mdl-message-action [mdlTitle]="'Aviso'" [action]="'new'" [msg]="mdlMsg" [show]="mdlShow" (Yes)="btnYes()" (No)="btnNo()">
+</app-mdl-message-action>

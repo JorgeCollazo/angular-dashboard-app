@@ -1,0 +1,63 @@
+<!-- https://startbootstrap.com/theme/sb-admin-pro -->
+<div class="d-flex flex-column vh-100 page">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
+        <div class="container-fluid">
+            <button (click)="open()" class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand font-italic" [routerLink]="['inicio']">ICOM-APP</a>
+
+            <form class="d-flex">
+              <button mat-mini-fab aria-label="Example icon button with a home icon" color="primary" (click)="salir()">
+                <mat-icon>logout</mat-icon>
+              </button>
+                <!-- <div class="btn-group dropstart">
+                    <a class="navbar-brand" href="#" data-bs-toggle="dropdown">
+
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Logout</a></li>
+                    </ul>
+                </div> -->
+            </form>
+        </div>
+    </nav>
+
+    <div class="d-flex flex-row vh-100 page">
+
+        <aside class="col-3 p-0 shadow" id="sidebar">
+
+            <nav class="nav flex-column p-1">
+                <p class="text-muted m-3 mb-2">
+                    <b>Menu</b>
+                </p>
+                <ng-container *ngFor="let a of menu">
+                    <a href="#" [routerLink]="['/app/pages/'+a.link]" routerLinkActive="active"
+                        class="nav-link rounded" mat-button color="primary">{{a.menu}}
+                    </a>
+                </ng-container>
+            </nav>
+            <!-- <div class="fixed-bottom p-3 sidenav-footer">
+                <small class="text-muted">Conectado como:</small><br>
+                <b>Elías Domínguez C.</b>
+            </div> -->
+        </aside>
+
+
+
+        <section class="overflow-auto" style="width: 100%;">
+            <div id="content">
+                <div class="contenido">
+                    <!-- <xng-breadcrumb></xng-breadcrumb> -->
+                    <router-outlet>
+                    </router-outlet>
+                </div>
+            </div>
+            <app-footer></app-footer>
+        </section>
+    </div>
+
+</div>

@@ -1,0 +1,242 @@
+<app-loading-page *ngIf="loadingPage"></app-loading-page>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+/>
+<mat-toolbar color="primary" class="d-flex justify-content-center mb-5">
+  <app-header-page [title]="'Mesa Información'"></app-header-page>
+</mat-toolbar>
+<div class="container content-page" *ngIf="!loadingPage">
+  <div class="row">
+    <!-- <div class="col-md-10"> -->
+      <!-- <div class="row"> -->
+        <div class="col-10">
+          <mat-form-field class="example-full-width" appearance="fill" style="width: 100%;">
+            <mat-label>Cédula</mat-label>
+            <input
+              matInput
+              placeholder="8-888-8888"
+              value=""
+              [(ngModel)]="solicitud.cedula_afiliado"
+              required
+            />
+          </mat-form-field>
+          <!-- <input type="text" placeholder="Cédula: 8-888-8888" class="form-control" [(ngModel)]="solicitud.cedula_afiliado"> -->
+        </div>
+        <div class="col-2">
+          <button
+            mat-fab
+            color="primary"
+            [disabled]="flag_envio"
+            (click)="buscarCedula()"
+            [disabled]="solicitud.cedula_afiliado == ''">
+            <mat-icon>search</mat-icon>
+          </button>
+        </div>
+      <!-- </div> -->
+      <!-- <div class="form-group">
+                <button class="btn btn-primary btn-lg float-end"  type="button" [disabled]="flag_envio" (click)="buscarCedula()"
+                    [disabled]="solicitud.cedula_afiliado== ''">BUSCAR</button>
+            </div> -->
+    <!-- </div> -->
+  </div>
+  <div class="row gy-2">
+    <div class="col-12">
+      <!-- <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Nombre completo</mat-label>
+            <input matInput placeholder="Jorge Collazo" value="" name="nombre" [(ngModel)]="solicitud.nombre" required readonly>
+          </mat-form-field> -->
+        <mat-form-field class="example-full-width" appearance="fill" style="width: 100%;">
+        <mat-label>Nombre completo</mat-label>
+        <input
+            matInput
+            class="bold-input"
+            value=""
+            name="nombre"
+            [(ngModel)]="solicitud.nombre"
+            required
+            readonly
+        />
+        </mat-form-field>
+      <!-- <label for="validationCustom03" class="form-label">Nombre completo</label>
+      <input
+        type="text"
+        class="form-control"
+        name="nombre"
+        [(ngModel)]="solicitud.nombre"
+        required
+        readonly
+      /> -->
+    </div>
+    <div class="col-12">
+        <mat-form-field class="example-full-width" appearance="fill" style="width: 100%;">
+            <mat-label>Provincia</mat-label>
+            <input
+                matInput
+                class="bold-input"
+                name="provincia"
+                [(ngModel)]="solicitud.provincia"
+                required
+                readonly
+            />
+        </mat-form-field>
+      <!-- <label for="validationCustom03" class="form-label">Provincia</label>
+      <input
+        type="text"
+        class="form-control"
+        name="provincia"
+        [(ngModel)]="solicitud.provincia"
+        required
+        readonly
+      /> -->
+    </div>
+    <div class="col-12">
+        <mat-form-field class="example-full-width" appearance="fill" style="width: 100%;">
+            <mat-label>Circuito</mat-label>
+            <input
+                matInput
+                class="bold-input"
+                name="circuito"
+                [(ngModel)]="solicitud.id_circ"
+                required
+                readonly
+            />
+        </mat-form-field>
+      <!-- <label for="validationCustom03" class="form-label">Circuito</label>
+      <input
+        type="text"
+        class="form-control"
+        name="circuito"
+        [(ngModel)]="solicitud.id_circ"
+        required
+        readonly
+      /> -->
+    </div>
+    <div class="col-12">
+        <mat-form-field class="example-full-width" appearance="fill" style="width: 100%;">
+            <mat-label>Distrito</mat-label>
+            <input
+                matInput
+                class="bold-input"
+                name="distrito"
+                [(ngModel)]="solicitud.distrito"
+                required
+                readonly
+            />
+        </mat-form-field>
+      <!-- <label for="validationCustom03" class="form-label">Distrito</label>
+      <input
+        type="text"
+        class="form-control"
+        name="distrito"
+        [(ngModel)]="solicitud.distrito"
+        required
+        readonly
+      /> -->
+    </div>
+    <div class="col-12">
+        <mat-form-field class="example-full-width" appearance="fill" style="width: 100%;">
+            <mat-label>Corregimiento</mat-label>
+            <input
+                matInput
+                class="bold-input"
+                name="nombre"
+                [(ngModel)]="solicitud.corregimiento"
+                required
+                readonly
+            />
+        </mat-form-field>
+      <!-- <label for="validationCustom03" class="form-label">Corregimiento</label>
+      <input
+        type="text"
+        class="form-control"
+        name="nombre"
+        [(ngModel)]="solicitud.corregimiento"
+        required
+        readonly
+      /> -->
+    </div>
+    <div class="col-12">
+        <mat-form-field class="example-full-width" appearance="fill" style="width: 100%;">
+            <mat-label>Centro de votación</mat-label>
+            <input
+                matInput
+                class="bold-input"
+                name="centro"
+                [(ngModel)]="solicitud.centro"
+                required
+                readonly
+            />
+        </mat-form-field>
+      <!-- <label for="validationCustom03" class="form-label"
+        >Centro de votacion</label
+      >
+      <input
+        type="text"
+        class="form-control"
+        name="centro"
+        [(ngModel)]="solicitud.centro"
+        required
+        readonly
+      /> -->
+    </div>
+    <div class="col-12">
+        <mat-form-field class="example-full-width" appearance="fill" style="width: 100%;">
+            <mat-label>Mesa</mat-label>
+            <input
+                matInput
+                class="bold-input"
+                name="mesa"
+                [(ngModel)]="solicitud.id_mesa"
+                required
+                readonly
+            />
+        </mat-form-field>
+      <!-- <label for="validationCustom03" class="form-label">Mesa</label>
+      <input
+        type="text"
+        class="form-control"
+        name="mesa"
+        [(ngModel)]="solicitud.id_mesa"
+        required
+        readonly
+      /> -->
+    </div>
+    <div class="container mt-4">
+      <div class="row">
+        <div class="col-6 d-flex flex-column">
+          <div class="align-self-start" *ngIf="voto_otro == false">
+            <div class="d-flex flex-wrap justify-content-end flex-column">
+              <button
+              type="button"
+              class="btn btn-danger btn-circle btn-xl align-self-end"
+              (click)="votoOtro()"
+            >
+              <i class="fa fa-times" style="color: rgb(255, 255, 255)"></i>
+            </button>
+            <label for="validationCustom03" class="form-label p-2"
+              >Por otro</label
+            >
+            </div>
+          </div>
+        </div>
+        <div class="col-6 d-flex flex-column">
+          <div class="align-self-end" *ngIf="voto_gaby == false">
+            <div class="d-flex flex-wrap justify-content-end flex-column">
+              <button
+              type="button"
+              class="btn btn-success btn-circle btn-xl align-self-end"
+              (click)="votoGaby()"
+            >
+              <i class="fa fa-check" style="color: rgb(255, 255, 255)"></i>
+            </button>
+            <label for="validationCustom03" class="form-label p-2"
+              >Por Gaby</label
+            >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

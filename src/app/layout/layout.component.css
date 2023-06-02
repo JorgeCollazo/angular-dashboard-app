@@ -1,0 +1,94 @@
+.page {
+    overflow: hidden;
+    background: #f1f5f9 !important;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.project-manager {
+    border-right: 1px solid black;
+}
+
+.navbar{
+    background-color: #fff !important;
+}
+
+
+/* Side Bar*/
+
+aside {
+    margin-top: 55px;
+    top: 0;
+    bottom:0;
+    overflow: auto;
+    overflow-x: hidden !important;
+}
+
+#sidebar.active {
+    margin-left: -250px;
+}
+
+#sidebar.active + section{
+    margin-right: -250px;
+}
+
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    transition: all 0.3s;
+    background-color: white;
+    background: #fff !important;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+section{
+    transition: all 0.3s;
+}
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+#content {
+    /* width: 100%; */
+    /* padding: 20px; */
+    min-height: 100vh;
+    transition: all 0.3s;
+    background-color: #f2f6fc;
+}
+
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+
+    #sidebar.active + section{
+        margin-right: -250px;
+    }
+    #sidebar + section{
+        margin-right: 0;
+    }
+}
+
+.navbar-light .navbar-toggler{
+     border-color: rgba(0,0,0,0) !important;
+}
+
+.contenido{
+    padding-top: 4.5rem !important;
+    padding-right: 1.5rem !important;
+    padding-left: 1.5rem !important;
+}
+
+.nav-link.active {
+  background-color: #3f51b5; /* Customize the background color as desired */
+  color: white; /* Customize the text color as desired */
+}
+
+a {
+  text-align: initial;
+}

@@ -1,0 +1,72 @@
+<app-loading-page *ngIf="loadingPage"></app-loading-page>
+
+<div class="content-page" *ngIf="!loadingPage">
+    <div class="row">
+        <div class="col-12 col-sm-6">
+            <app-header>
+            </app-header>
+        </div>
+        <div class="col-12 col-sm-6">
+            <div class="input-group mb-3">
+                <span class="input-group-text">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-search" viewBox="0 0 16 16">
+                        <path
+                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                    </svg>
+                </span>
+                <input type="text" class="form-control" placeholder="Buscar..." [(ngModel)]="filterText">
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover table-sm" id="rpt-premioinst">
+                    <thead class="text-center">
+                        <tr>
+                            <th>ID</th>
+                            <th>Id Estación</th>
+                            <th>Id Juego</th>
+                            <th>Puntaje</th>
+                            <th>Dificultad</th>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="dataList.length > 0">
+                        <tr
+                            *ngFor="let a of dataList | filterBy: ['id_Estacion','id_juego','dificultad']: filterText | paginate: { itemsPerPage: rowsPage, currentPage: p }">
+                            <td>{{a.id}}</td>
+                            <td>{{a.id_Estacion}}</td>
+                            <td>{{a.id_Juego}}</td>
+                            <td>{{a.puntaje}}</td>
+                            <td>{{a.dificultad}}</td>
+                            <td>{{a.fechaCrea}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div>
+                    <pagination-controls (pageChange)="p = $event" previousLabel="Anterior" nextLabel="Próximo">
+                    </pagination-controls>
+                </div>
+                <div class="text-center">
+                    <p>{{messageApi}}</p>
+                </div>
+                <div class="d-grid gap-2 d-md-block">
+                    <button class="btn btn-lg btn-success btn-block waves-effect me-2" type="button" style="cursor: pointer;"
+                        (click)="exportAsXLSX()" *ngIf="dataList.length > 0">EXPORTAR TODO</button>
+                        <button class="btn btn-lg btn-info btn-block waves-effect" type="button" style="cursor: pointer;"
+                        (click)="exportExcel()" *ngIf="dataList.length > 0">EXPORTAR TABLA</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <app-button-float-bottom (Event)="btnAdd()"></app-button-float-bottom>
+</div>
+
+<!-- Modal -->
+<app-mdl-message-action [mdlTitle]="'Aviso'" [action]="'delete'" [msg]="mdlMsg" [show]="mdlShow" (Yes)="delete()"
+    (No)="btnNo()" [loadingRequest]="loadingRequest">
+</app-mdl-message-action>

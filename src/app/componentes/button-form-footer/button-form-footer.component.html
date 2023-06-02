@@ -1,0 +1,21 @@
+<div class="d-flex justify-content-between">
+    <div>
+        <div class="btn-group" role="group" aria-label="Acción">
+            <button type="button" class="btn btn-outline-secondary" (click)="EmitBtnToReturn()">
+                Regresar
+            </button>
+            <button type="button" class="btn btn-outline-warning" *ngIf="BtnClearIsVisible" (click)="EmitBtnClear()">
+                Limpiar
+            </button>
+        </div>
+    </div>
+    <div>
+        <button type="button" class="btn btn-success" type="submit" *ngIf="BtnSaveIsVisible" [disabled]="formIsValid || loadingRequest">
+            <span *ngIf="!loadingRequest">Guardar</span>
+            <span *ngIf="loadingRequest">
+                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                Guardando...
+            </span>
+        </button>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+.bg-login-content{
+    background-image: linear-gradient(0deg, rgb(0 112 155 / 30%) 10%, rgb(123 235 255 / 30%) 100%), url(/assets/img/bg/corp-bg.jpg) !important;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.spiner-pagina {
+    width: 10rem;
+    height: 10rem;
+}
+
+.custom-bottom {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 34%;
+  z-index: 1030;
+}
