@@ -31,11 +31,15 @@ import { MesaConteoModule } from './pages/mesa-conteo/mesa-conteo.module';
 import { WebcamModule } from 'ngx-webcam';
 import { Router } from '@angular/router';
 
-import {MatInputModule} from '@angular/material/input';
-
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatGridListModule } from '@angular/material/grid-list';
+import {MatCardModule} from '@angular/material/card';
+import {MatMenuModule} from '@angular/material/menu';
+import { MatInputModule } from '@angular/material/input';
+
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 //enableProdMode();
 
@@ -48,6 +52,7 @@ import { MatIconModule } from '@angular/material/icon';
     Page404Component,
     FooterComponent,
     Page403Component,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -70,7 +75,11 @@ import { MatIconModule } from '@angular/material/icon';
     WebcamModule,
     SweetAlert2Module.forRoot(),
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatGridListModule,
+    MatCardModule,
+    MatMenuModule,
+    MatInputModule
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },

@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+
 :root {
   --theme-bg-image-gradient: linear-gradient(0deg, #00709b 10%, #7bebff 100%) !important;
+  --custom-yellow: #fbc031;
 }
 
 a {

@@ -51,6 +51,7 @@ export class AuthComponent implements OnInit {
 
   /* Metodo para la autenticacion */
   async btnAuth() {
+
     this.loading = true;
     let datos: Login = new Login;
 
