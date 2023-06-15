@@ -1,6 +1,6 @@
 .page {
     overflow: hidden;
-    background: #f1f5f9 !important;
+    /* background: #f1f5f9 !important; */
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -10,8 +10,11 @@
     border-right: 1px solid black;
 }
 
+.bg-white {
+  background-color: white;
+}
 .navbar{
-    background-color: #fff !important;
+    /* background-color: #fff !important; */
 }
 
 
@@ -29,7 +32,7 @@ aside {
     margin-left: -250px;
 }
 
-#sidebar.active + section{
+#sidebar.active > section{
     margin-right: -250px;
 }
 
@@ -37,8 +40,8 @@ aside {
     min-width: 250px;
     max-width: 250px;
     transition: all 0.3s;
-    background-color: white;
-    background: #fff !important;
+    /* background-color: white;
+    background: #fff !important; */
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -55,7 +58,7 @@ a[data-toggle="collapse"] {
     /* padding: 20px; */
     min-height: 100vh;
     transition: all 0.3s;
-    background-color: #f2f6fc;
+    /* background-color: #f2f6fc; */
 }
 
 @media (max-width: 768px) {

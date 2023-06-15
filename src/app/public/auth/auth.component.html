@@ -1,91 +1,69 @@
-<!-- <div class="df vh-100">
-    <div class="d-flex flex-row align-content-around">
-        <div class="p-2 bd-highlight vh-100 col-4 d-none d-sm-block bg-login-content">
-            <div class="h-100 d-flex align-items-center text-center">
-                <div class="row">
-                    <p class="fs-1 text-white">ICOM-APP</p>
-                    <p class="text-white">Facturacion Electronica</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-sm-8 p-3 form">
-            <div class="h-100 d-flex justify-content-center align-items-center">
-                <div class="text-center" *ngIf="loading">
-                    <div class="spinner-grow text-primary spiner-pagina" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                    <h1 class="display-3 text-secondary mt-5">Autenticando...</h1>
-                </div>
-                <div class="row" *ngIf="!loading">
-                    <p class="fs-1 text-right">Log in</p>
-                    <form class="mb-2" [formGroup]="formulario" (ngSubmit)="btnAuth()" autocomplete="off" novalidate>
-                        <div class="mb-3">
-                            <label for="user" class="form-label">Usuario</label>
-                            <input type="text" class="form-control" id="user" aria-describedby="userHelp"
-                                formControlName="user">
-                            <div id="userHelp" class="form-text">Utilice el usuario enviado por el
-                                administrador.</div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="pwd" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" id="pwd" formControlName="pwd">
-                        </div>
-                        <button type="submit" class="btn btn-primary" [disabled]="!formulario.valid">Entrar</button>
-                    </form>
-                    <div class="alert alert-warning" role="alert" *ngIf="WarnMostrar">
-                        {{WarnMensaje}}
-                    </div>
-                </div>
-
-            </div>
-            <div class="custom-bottom">
-                <app-footer></app-footer>
-            </div>
-        </div>
-    </div>
-</div> -->
-
-
 <div class="custom-container">
-  <mat-grid-list cols="1" rowHeight="550px">
+  <mat-grid-list cols="1" rowHeight="850px">
     <mat-grid-tile>
       <mat-card class="login-card">
-        <mat-card-header class="justify-content-center mb-5">
-          <div mat-card-avatar class="header-image">
-            <mat-icon class="custom-mat-icon">key</mat-icon>
+        <form
+          class="mb-2"
+          [formGroup]="formulario"
+          (ngSubmit)="btnAuth()"
+          autocomplete="off"
+          novalidate
+        >
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <mat-card-header>
+                <mat-icon class="custom-mat-icon">key</mat-icon>
+              </mat-card-header>
+            </div>
           </div>
-        </mat-card-header>
-        <mat-card-content>
-          <form class="mb-2" [formGroup]="formulario" (ngSubmit)="btnAuth()" autocomplete="off" novalidate>
-             <!-- <div class="mb-3">
-                <label for="user" class="form-label">Usuario</label>
-                <input type="text" class="form-control" id="user" aria-describedby="userHelp"
-                    formControlName="user">
-            </div> -->
-            <mat-form-field class="example-full-width w-100">
-              <mat-label>Usuario</mat-label>
-              <input type="text" matInput placeholder="usuario" id="user" formControlName="user">
-              <mat-icon matSuffix>person</mat-icon>
-            </mat-form-field>
-            <mat-form-field class="example-full-width w-100">
-              <mat-label>Contraseña</mat-label>
-              <input type="password" matInput placeholder="Contraseña" id="pwd" formControlName="pwd">
-              <mat-icon matSuffix>lock</mat-icon>
-            </mat-form-field>
-            <!-- <div class="mb-3">
-                <label for="pwd" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="pwd" formControlName="pwd">
-            </div> -->
-            <!-- <button type="submit" class="btn btn-primary" [disabled]="!formulario.valid">Entrar</button> -->
-         </form>
-        </mat-card-content>
-        <mat-card-actions class="text-center">
-          <button mat-raised-button type="submit" [disabled]="!formulario.valid">Entrar</button>
-        </mat-card-actions>
+          <div class="row">
+            <div class="col-12">
+              <mat-card-content>
+                <mat-form-field class="example-full-width w-100">
+                  <mat-label>Usuario</mat-label>
+                  <input
+                    type="text"
+                    matInput
+                    placeholder="usuario"
+                    id="user"
+                    formControlName="user"
+                  />
+                  <mat-icon matSuffix>person</mat-icon>
+                </mat-form-field>
+                <mat-form-field class="example-full-width w-100">
+                  <mat-label>Contraseña</mat-label>
+                  <input
+                    type="password"
+                    matInput
+                    placeholder="Contraseña"
+                    id="pwd"
+                    formControlName="pwd"
+                  />
+                  <mat-icon matSuffix>lock</mat-icon>
+                </mat-form-field>
+              </mat-card-content>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <mat-card-actions class="text-center">
+                <button
+                  mat-raised-button
+                  type="submit"
+                  [disabled]="!formulario.valid"
+                >
+                  Entrar
+                </button>
+              </mat-card-actions>
+            </div>
+          </div>
+        </div>
+        </form>
       </mat-card>
       <div class="alert alert-warning" role="alert" *ngIf="WarnMostrar">
-        {{WarnMensaje}}
-    </div>
+        {{ WarnMensaje }}
+      </div>
     </mat-grid-tile>
   </mat-grid-list>
- </div>
+</div>

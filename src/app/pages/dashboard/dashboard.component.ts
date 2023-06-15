@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
-
+import { Color, ScaleType  } from '@swimlane/ngx-charts';
+import { FacturacionDataService } from 'src/app/services/facturacion-data/facturacion-data.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -29,5 +30,38 @@ export class DashboardComponent {
     })
   );
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  view: [number, number] = [800, 200];
+  activeEntries: any[] = [2, 1];
+  // options
+  gradient: boolean = true;
+  showLegend: boolean = true;
+  showLabels: boolean = true;
+  isDoughnut: boolean = false;
+
+  // colorScheme = {
+  //   domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+  // };
+
+  colorScheme = 'cool'
+
+  constructor(private breakpointObserver: BreakpointObserver, private facturacionDataService: FacturacionDataService) {
+    // Object.assign( this, { single });
+  }
+
+  get data() {
+    return this.facturacionDataService.getFacturacionData;
+  }
+
+  onSelect(data: any): void {
+    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
+  }
+
+  onActivate(data: any): void {
+    console.log('Activate', JSON.parse(JSON.stringify(data)));
+  }
+
+  onDeactivate(data: any): void {
+    console.log('Deactivate', JSON.parse(JSON.stringify(data)));
+  }
+
 }

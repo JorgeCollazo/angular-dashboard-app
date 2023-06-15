@@ -7,6 +7,8 @@ import { ConteoMesaComponent } from './mesa-conteo/conteo-mesa/conteo-mesa.compo
 import { AppComponent } from '../app.component';
 import { FotoMesaComponent } from './mesa-conteo/foto-mesa/foto-mesa.component';
 import { SeleccionMesaComponent } from './mesa-conteo/seleccion-mesa/seleccion-mesa.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { FacturacionDataComponent } from './facturacion-data/facturacion-data.component';
 
 const routes: Routes = [
   {
@@ -69,14 +71,14 @@ const routes: Routes = [
       },
       {
         path: 'mesa-info',
-        loadChildren: () => import('./mesa-informacion/mesa-informacion.module')       
+        loadChildren: () => import('./mesa-informacion/mesa-informacion.module')
           .then(m => m.MesaInformacionModule),
           data: {
             breadcrumb: { skip: true }
           }
       },
-      {        
-        path: 'foto-mesa', 
+      {
+        path: 'foto-mesa',
         data: { breadcrumb: { skip:true } },
         component:FotoMesaComponent
       },
@@ -84,6 +86,16 @@ const routes: Routes = [
         path: 'conteo-mesa',
         data: { breadcrumb: { skip: true }},
         component: ConteoMesaComponent
+      },
+      {
+        path: 'data-filter',
+        data: { breadcrumb: { skip: true }},
+        component: FacturacionDataComponent
+      },
+      {
+        path: 'dashboard',
+        data: { breadcrumb: { skip: true }},
+        component: DashboardComponent
       },
       {
         path: '',

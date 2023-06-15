@@ -1,16 +1,17 @@
 <!-- https://startbootstrap.com/theme/sb-admin-pro -->
 <div class="d-flex flex-column vh-100 page">
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm bg-white">
         <div class="container-fluid">
             <button (click)="open()" class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand font-italic" [routerLink]="['inicio']">ICOM-APP</a>
+            <a class="navbar-brand font-italic" [routerLink]="['inicio']">Facturación Electrónica</a>
 
             <form class="d-flex">
+              <app-theme-switcher></app-theme-switcher>
               <button mat-mini-fab aria-label="Example icon button with a home icon" color="primary" (click)="salir()">
                 <mat-icon>logout</mat-icon>
               </button>
@@ -40,10 +41,6 @@
                     </a>
                 </ng-container>
             </nav>
-            <!-- <div class="fixed-bottom p-3 sidenav-footer">
-                <small class="text-muted">Conectado como:</small><br>
-                <b>Elías Domínguez C.</b>
-            </div> -->
         </aside>
 
 
@@ -51,7 +48,6 @@
         <section class="overflow-auto" style="width: 100%;">
             <div id="content">
                 <div class="contenido">
-                    <!-- <xng-breadcrumb></xng-breadcrumb> -->
                     <router-outlet>
                     </router-outlet>
                 </div>

@@ -11,10 +11,19 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { LayoutModule } from '@angular/cdk/layout';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { FacturacionDataComponent } from './facturacion-data/facturacion-data.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
     InicioComponent,
+    DashboardComponent,
+    FacturacionDataComponent,
   ],
   imports: [
     CommonModule,
@@ -26,8 +35,12 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatMenuModule,
     MatIconModule,
     MatButtonModule,
-    LayoutModule
-
+    LayoutModule,
+    NgxChartsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatInputModule,
   ]
 })
 export class PagesModule { }

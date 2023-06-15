@@ -12,7 +12,9 @@ import { ButtonListAddComponent } from './button-list-add/button-list-add.compon
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgPipesModule } from 'ngx-pipes';
 import { BtnActionsComponent } from './btn-actions/btn-actions.component';
-
+import { ThemeSwitcherComponent } from './theme-switcher/theme-switcher.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -24,7 +26,7 @@ import { BtnActionsComponent } from './btn-actions/btn-actions.component';
     MdlMessageActionComponent,
     ButtonListAddComponent,
     BtnActionsComponent,
-
+    ThemeSwitcherComponent,
   ],
   imports: [
     CommonModule,
@@ -32,6 +34,8 @@ import { BtnActionsComponent } from './btn-actions/btn-actions.component';
     ReactiveFormsModule,
     NgxPaginationModule,
     NgPipesModule,
+    MatSlideToggleModule,
+    MatTooltipModule
   ],
   exports: [
     HeaderComponent,
@@ -45,6 +49,7 @@ import { BtnActionsComponent } from './btn-actions/btn-actions.component';
     NgxPaginationModule,
     NgPipesModule,
     BtnActionsComponent,
+    ThemeSwitcherComponent
   ],
 })
 export class CompartidoModule {}

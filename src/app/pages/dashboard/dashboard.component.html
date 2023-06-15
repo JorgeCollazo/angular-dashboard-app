@@ -4,11 +4,25 @@
       <mat-card class="dashboard-card">
         <mat-card-header>
           <mat-card-title class="dashboard-card-content">
-            <div class="dashboard-card-content">Titulo</div>
+            <div class="dashboard-card-content">Dashboard</div>
           </mat-card-title>
         </mat-card-header>
         <mat-card-content class="dashboard-card-content">
-          <div>Card Content Here</div>
+          <div>
+            <ngx-charts-advanced-pie-chart
+              [view]="view"
+              [activeEntries]="activeEntries"
+              [scheme]="colorScheme"
+              [results]="data"
+              [gradient]="gradient"
+              [animations]= true
+              [gradient]= false
+              (select)="onSelect($event)"
+              (activate)="onActivate($event)"
+              (deactivate)="onDeactivate($event)"
+              >
+          </ngx-charts-advanced-pie-chart>
+          </div>
         </mat-card-content>
       </mat-card>
     <!-- </mat-grid-tile> -->

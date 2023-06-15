@@ -20,4 +20,12 @@
   text-align: center;
 }
 
+:host ::ng-deep ngx-charts-advanced-pie-chart .advanced-pie-legend .total-label {
+  font-size: 24px;
+  margin-bottom: 19px;
+  margin: 20px;
+}
 
+:host ::ng-deep ngx-charts-advanced-pie-chart .legend-items {
+  overflow: visible !important;
+}

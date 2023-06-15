@@ -19,7 +19,12 @@
 .login-card {
   max-width: 400px;
   height: 300px;
-  padding: 1rem 2rem;
+  padding: 0 1rem;
+  margin: 0 25px;
+  border-radius: 15px;
+  box-shadow: 5px 5px 15px;
+  margin-top: -15rem;
+  border: solid 5px #fbc031;
 }
 
 .custom-container {
@@ -37,12 +42,51 @@ button {
 }
 
 .custom-mat-icon {
-  font-size: 80px;
-  height: 80px;
-  width: 80px;
+  font-size: 100px;
+  height: 100px;
+  width: 100px;
   color: var(--custom-yellow);
 }
 
-.header-image {
-  text-align: end;
+mat-card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (min-width: 1200px) {
+
+  mat-card-header {
+    margin-bottom: 6rem;
+  }
+  .custom-container {
+    background-image: url('/assets/img/bg/login_bg_clean.png');
+  }
+
+  .custom-mat-icon {
+    margin-top: 15px;
+  }
+
+  .login-card {
+    max-width: 300px;
+    height: 450px;
+    padding: 1rem 2rem;
+    margin: 0 25px;
+    border-radius: 15px;
+    box-shadow: 5px 5px 15px;
+    margin-top: -12rem;
+  }
+
+  .mb-6 {
+    margin-bottom: rem;
+  }
+
+}
+
+@media (min-width: 1600px) {
+
+  .login-card {
+    margin-top: 18rem;
+  }
+
 }

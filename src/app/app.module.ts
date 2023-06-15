@@ -2,7 +2,7 @@ import { enableProdMode, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -35,11 +35,9 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatGridListModule } from '@angular/material/grid-list';
-import {MatCardModule} from '@angular/material/card';
-import {MatMenuModule} from '@angular/material/menu';
+import { MatCardModule } from '@angular/material/card';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatInputModule } from '@angular/material/input';
-
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 //enableProdMode();
 
@@ -52,7 +50,6 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
     Page404Component,
     FooterComponent,
     Page403Component,
-    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -79,7 +76,8 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
     MatGridListModule,
     MatCardModule,
     MatMenuModule,
-    MatInputModule
+    MatInputModule,
+    CommonModule,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
