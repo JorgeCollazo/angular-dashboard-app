@@ -22,6 +22,7 @@ export class FacturacionDataComponent implements AfterViewInit {
   // dataSource = new MatTableDataSource(EXAMPLE_DATA)
 
   userColl = new MatTableDataSource<FacturacionDataItem>([]);
+
   constructor() {
     this.dataSource = new FacturacionDataDataSource();
   }
@@ -35,14 +36,14 @@ export class FacturacionDataComponent implements AfterViewInit {
     this.dataSource.paginator = this.paginator;
     // this.table.dataSource = this.dataSource;
     this.table.dataSource = this.userColl;
+
+
   }
 
   applyFilter(event: Event): void {
     let filterValue = (event.target as HTMLInputElement)?.value;
     console.log(filterValue);
     console.log(this.dataSource);
-    // console.log(this.dataSource2);
-
     this.userColl.filter = filterValue.trim().toLowerCase();
   }
 }

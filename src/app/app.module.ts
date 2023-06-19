@@ -38,6 +38,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatInputModule } from '@angular/material/input';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 //enableProdMode();
 
@@ -78,6 +79,7 @@ import { MatInputModule } from '@angular/material/input';
     MatMenuModule,
     MatInputModule,
     CommonModule,
+    MatSidenavModule
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
