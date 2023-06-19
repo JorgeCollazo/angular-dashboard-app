@@ -14,36 +14,34 @@ export class FacturacionDataComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<FacturacionDataItem>;
-  dataSource: FacturacionDataDataSource;
+
+  dataSource:  MatTableDataSource<FacturacionDataItem>;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['nro', 'fecha_creacion', 'evento', 'sucursal', 't_pago', 't_doc', 't_op', 'status', 'actions'];
 
   // dataSource = new MatTableDataSource(EXAMPLE_DATA)
 
-  userColl = new MatTableDataSource<FacturacionDataItem>([]);
+  // userColl = new MatTableDataSource<FacturacionDataItem>([]);
 
   constructor() {
-    this.dataSource = new FacturacionDataDataSource();
+    this.dataSource = new MatTableDataSource<FacturacionDataItem>;
   }
 
 
   ngAfterViewInit(): void {
 
-    this.userColl = new MatTableDataSource(EXAMPLE_DATA);
+    this.dataSource = new MatTableDataSource(EXAMPLE_DATA);
 
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
-    // this.table.dataSource = this.dataSource;
-    this.table.dataSource = this.userColl;
-
-
+    this.table.dataSource = this.dataSource;
   }
 
   applyFilter(event: Event): void {
     let filterValue = (event.target as HTMLInputElement)?.value;
     console.log(filterValue);
     console.log(this.dataSource);
-    this.userColl.filter = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 }
