@@ -13,3 +13,17 @@ mat-card-content {
 mat-chip {
   color: white !important;
 }
+
+#export-button-ID {
+	height: 100%;
+	align-self: center;
+}
+
+#filter-button-ID, #filter-off-button-ID {
+  margin-left: 16px;
+}
+
+#filter-button-ID, #filter-off-button-ID, #export-button-ID {
+  background-color: #3f51b5 !important;
+  color: white !important;
+}

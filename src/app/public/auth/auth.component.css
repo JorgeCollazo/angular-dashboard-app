@@ -19,13 +19,13 @@
 .login-card {
   max-width: 400px;
   height: 25rem;
-  padding: 0 1rem;
+  padding: 0;
   margin: 0 25px;
   border-radius: 15px;
   background-color: rgba(255,255,255,0.1);
   color: white;
-  margin-top: -15rem;
-  border: solid 1px #3f51b5;
+  margin-top: -19rem;
+  border: solid 1px #1a99ce;
 }
 
 .custom-container {
@@ -39,46 +39,76 @@
 
 button {
   width: 100%;
-  background-color: #3f51b5 !important;
+  background-color: #1880ad !important;
   color: white !important;
 }
 
 .custom-mat-icon {
-  font-size: 100px;
-  height: 100px;
-  width: 100px;
-  color: white
+  font-size: 50px;
+  height: 50px;
+  width: 50px;
+  color: white;
+}
+
+.image-logo-container {
+  margin-bottom: 3rem;
+  margin-top: 1rem;
+  overflow: hidden;
+}
+
+.image-logo-container img {
+  height: 4rem;
+  width: 100%;
 }
 
 mat-card-header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 50px 0px;
 }
 
 mat-label {
   color: wheat;
 }
 
+mat-card {
+  padding: 0;
+}
+
+.container .row:first-child {
+  background-color: white;
+  border-radius: 15px 15px 0 0;
+  margin-bottom: 44px;
+  height: 6rem;
+  border-bottom: 1px solid #1880ad;
+}
+
+.container .row:nth-child(3) {
+  padding: 0 1rem;
+}
+
+.container .row:nth-child(4) {
+  padding: 0 1rem;
+}
+
 @media (min-width: 1200px) {
 
   mat-card-header {
     margin: 20px 0px;
-    margin-bottom: 6rem;
+    margin-bottom: 2rem;
   }
   .custom-container {
     background-image: url('/assets/img/bg/bg-facturacion.png');
   }
 
-  .custom-mat-icon {
-    margin-top: 15px;
-  }
+  /* .custom-mat-icon {
+    margin-top: 8rem;
+  } */
 
   .login-card {
     max-width: 300px;
     height: 450px;
-    padding: 1rem 2rem;
+    padding: 0;
     margin: 0 25px;
     border-radius: 15px;
     margin-top: -12rem;
