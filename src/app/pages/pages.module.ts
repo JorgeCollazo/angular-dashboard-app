@@ -19,6 +19,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { MatChipsModule } from '@angular/material/chips';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     PagesRoutingModule,
     PpBreadcrumbsModule,
     CompartidoModule,

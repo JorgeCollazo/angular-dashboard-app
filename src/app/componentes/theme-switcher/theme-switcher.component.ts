@@ -13,13 +13,24 @@ export class ThemeSwitcherComponent implements OnInit {
   constructor(@Inject(DOCUMENT) private document: Document) { }
 
   ngOnInit(): void {
+    this.checkDarkThemeActive();
   }
 
   onChange(newValue: boolean):void {
     if(newValue) {
       this.document.body.classList.add('dark-mode');
+      this.isDarkThemeActive = true;
     } else {
       this.document.body.classList.remove('dark-mode');
+      this.isDarkThemeActive = false;
+    }
+  }
+
+  checkDarkThemeActive(){
+    if(this.document.body.classList.contains('dark-mode')) {
+      this.isDarkThemeActive = true;
+    } else {
+      this.isDarkThemeActive = false;
     }
   }
 

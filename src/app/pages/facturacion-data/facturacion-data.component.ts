@@ -4,6 +4,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { FacturacionDataItem } from './facturacion-data-datasource';
 import { EXAMPLE_DATA } from './facturacion-data-datasource'
+import { NgForm } from '@angular/forms';
+import { Login } from 'src/app/public/auth/auth.interface';
 
 @Component({
   selector: 'app-facturacion-data',
@@ -17,6 +19,15 @@ export class FacturacionDataComponent implements AfterViewInit {
 
   dataSource:  MatTableDataSource<FacturacionDataItem>;
 
+  fecha_inicio: Date = new Date();
+  fecha_fin: Date = new Date();
+  sucursal: string = "";
+  evento: string = "";
+  t_pago: string = "";
+  tipo_doc: string = "";
+  tipo_op: string = "";
+  status: string = "";
+
   EXAMPLE_DATA: FacturacionDataItem[] = [
     {nro: 1, fecha_creacion: new Date(), fecha_inicio: new Date(), t_pago: 51, t_doc: 15, t_op: 71, status: 1, evento: 1, sucursal: 'Xtra'},
     {nro: 2, fecha_creacion: new Date(), fecha_inicio: new Date(), t_pago: 52, t_doc: 25, t_op: 72, status: 2, evento: 2, sucursal: 'Campeon'},
@@ -27,17 +38,16 @@ export class FacturacionDataComponent implements AfterViewInit {
     {nro: 7, fecha_creacion: new Date(), fecha_inicio: new Date(), t_pago: 57, t_doc: 75, t_op: 77, status: 7, evento: 7, sucursal: 'Super 99'},
   ]
 
-  /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
+  /* Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['nro', 'fecha_creacion', 'evento', 'sucursal', 't_pago', 't_doc', 't_op', 'status', 'actions'];
 
   constructor() {
     this.dataSource = new MatTableDataSource<FacturacionDataItem>;
+    this.dataSource = new MatTableDataSource(EXAMPLE_DATA);
   }
 
 
   ngAfterViewInit(): void {
-
-    this.dataSource = new MatTableDataSource(EXAMPLE_DATA);
 
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
@@ -47,5 +57,11 @@ export class FacturacionDataComponent implements AfterViewInit {
   applyFilter(event: Event): void {
     let filterValue = (event.target as HTMLInputElement)?.value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  resetForm(filteringForm: NgForm) {
+    console.log(filteringForm);
+
+    filteringForm.reset();
   }
 }
