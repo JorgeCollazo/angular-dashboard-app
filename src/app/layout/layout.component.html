@@ -1,46 +1,67 @@
 <div class="d-flex flex-column vh-100 page">
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
-        <div class="container-fluid">
-            <button (click)="open()" class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <a class="navbar-brand font-italic" [routerLink]="['inicio']">Facturación Electrónica</a>
-
-            <form class="d-flex">
-              <app-theme-switcher></app-theme-switcher>
-              <button mat-mini-fab aria-label="Example icon button with a home icon" color="primary" (click)="salir()">
-                <mat-icon>logout</mat-icon>
-              </button>
-            </form>
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+    <div class="container-fluid mx-0 pr-0">
+      <div class="row w-100">
+        <div class="col-9">
+            <button
+            (click)="open()"
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <a class="navbar-brand font-italic" [routerLink]="['inicio']"
+            >Facturación Electrónica</a
+          >
         </div>
-    </nav>
-    <div class="d-flex flex-row vh-100 page">
-
-        <aside class="col-3 p-0 shadow" id="sidebar">
-
-            <nav class="nav flex-column p-1">
-                <p class="text-muted m-3 mb-2">
-                    <b>Menu</b>
-                </p>
-                <ng-container *ngFor="let a of menu">
-                    <a href="#" [routerLink]="['/app/pages/'+a.link]" routerLinkActive="active"
-                        class="nav-link rounded" mat-button color="primary">{{a.menu}}
-                    </a>
-                </ng-container>
-            </nav>
-        </aside>
-
-        <section class="overflow-auto" style="width: 100%;">
-            <div id="content">
-                <div class="contenido">
-                    <router-outlet>
-                    </router-outlet>
-                </div>
-            </div>
-            <app-footer></app-footer>
-        </section>
+        <div class="col-3 p-0">
+          <div class="logout-container">
+            <app-theme-switcher></app-theme-switcher>
+            <button
+              mat-mini-fab
+              aria-label="Example icon button with a home icon"
+              color="primary"
+              (click)="salir()"
+            >
+              <mat-icon>logout</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
+  </nav>
+  <div class="d-flex flex-row vh-100 page">
+    <aside class="col-3 p-0 shadow" id="sidebar">
+      <nav class="nav flex-column p-1">
+        <p class="text-muted m-3 mb-2">
+          <b>Menu</b>
+        </p>
+        <ng-container *ngFor="let a of menu">
+          <a
+            href="#"
+            [routerLink]="['/app/pages/' + a.link]"
+            routerLinkActive="active"
+            class="nav-link rounded"
+            mat-button
+            color="primary"
+            >{{ a.menu }}
+          </a>
+        </ng-container>
+      </nav>
+    </aside>
 
+    <section class="overflow-auto" style="width: 100%">
+      <div id="content">
+        <div class="contenido">
+          <router-outlet> </router-outlet>
+        </div>
+      </div>
+      <app-footer></app-footer>
+    </section>
+  </div>
 </div>

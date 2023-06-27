@@ -1,18 +1,25 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, OnInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { FacturacionDataItem } from './facturacion-data-datasource';
 import { EXAMPLE_DATA } from './facturacion-data-datasource'
 import { NgForm } from '@angular/forms';
-import { Login } from 'src/app/public/auth/auth.interface';
+import { FacturacionDataService } from './facturacion-data.service';
+interface Post {
+  userId: number;
+  id: number;
+  title: string;
+  completed: string;
+}
 
 @Component({
   selector: 'app-facturacion-data',
   templateUrl: './facturacion-data.component.html',
   styleUrls: ['./facturacion-data.component.css']
 })
-export class FacturacionDataComponent implements AfterViewInit {
+
+export class FacturacionDataComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<FacturacionDataItem>;
@@ -41,14 +48,19 @@ export class FacturacionDataComponent implements AfterViewInit {
   /* Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['nro', 'fecha_creacion', 'evento', 'sucursal', 't_pago', 't_doc', 't_op', 'status', 'actions'];
 
-  constructor() {
-    this.dataSource = new MatTableDataSource<FacturacionDataItem>;
-    this.dataSource = new MatTableDataSource(EXAMPLE_DATA);
+  constructor(private facturacionService: FacturacionDataService) {
+    this.dataSource = new MatTableDataSource<FacturacionDataItem>(EXAMPLE_DATA);
   }
 
+  ngOnInit(): void {
+    for(let i=0; EXAMPLE_DATA.length<100; i++) {
+      let j = this.getRandomInt(6)
+      EXAMPLE_DATA.push(EXAMPLE_DATA[j]);
+    }
+    console.log(EXAMPLE_DATA);
+  }
 
   ngAfterViewInit(): void {
-
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.table.dataSource = this.dataSource;
@@ -60,8 +72,10 @@ export class FacturacionDataComponent implements AfterViewInit {
   }
 
   resetForm(filteringForm: NgForm) {
-    console.log(filteringForm);
-
     filteringForm.reset();
+  }
+
+  getRandomInt(max: number) {
+    return Math.floor(Math.random() * max);
   }
 }

@@ -30,26 +30,32 @@ export class DashboardComponent {
     })
   );
 
+  // options
   view: [number, number] = [800, 200];
   activeEntries: any[] = [2, 1];
-  // options
   gradient: boolean = true;
   showLegend: boolean = true;
   showLabels: boolean = true;
   isDoughnut: boolean = false;
-
-  // colorScheme = {
-  //   domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
-  // };
-
   colorScheme = 'cool'
 
-  constructor(private breakpointObserver: BreakpointObserver, private facturacionDataService: FacturacionDataService) {
-    // Object.assign( this, { single });
-  }
+  dateNow = new Date(Date.now());
+  lastDay = this.dateNow.toLocaleString();
+  sucursales = [
+    {id: 1, name: 'Xtra'},
+    {id: 2, name: 'El Campeon'},
+    {id: 3, name: 'Oca Loca'},
+    {id: 4, name: 'El Costo'}
+  ]
+
+  constructor(private breakpointObserver: BreakpointObserver, private facturacionDataService: FacturacionDataService) {}
 
   get data() {
     return this.facturacionDataService.getFacturacionData;
+  }
+
+  get data2() {
+    return this.facturacionDataService.getFacturacionData2;
   }
 
   onSelect(data: any): void {

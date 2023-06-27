@@ -17,7 +17,7 @@ import {MatInputModule} from '@angular/material/input';
     ConteoMesaComponent,
     FotoMesaComponent,
     SeleccionMesaComponent,
-    HeaderPageComponent,
+    // HeaderPageComponent,
   ],
   imports: [
     CommonModule,
@@ -30,7 +30,7 @@ import {MatInputModule} from '@angular/material/input';
     MatInputModule
   ],
   exports: [
-    HeaderPageComponent,
+    // HeaderPageComponent,
   ]
 })
 export class MesaConteoModule { }

@@ -15,6 +15,7 @@ import { BtnActionsComponent } from './btn-actions/btn-actions.component';
 import { ThemeSwitcherComponent } from './theme-switcher/theme-switcher.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { HeaderPageComponent } from './header-page/header-page.component';
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -27,6 +28,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     ButtonListAddComponent,
     BtnActionsComponent,
     ThemeSwitcherComponent,
+    HeaderPageComponent
   ],
   imports: [
     CommonModule,
@@ -35,7 +37,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     NgxPaginationModule,
     NgPipesModule,
     MatSlideToggleModule,
-    MatTooltipModule
+    MatTooltipModule,
   ],
   exports: [
     HeaderComponent,
@@ -49,7 +51,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     NgxPaginationModule,
     NgPipesModule,
     BtnActionsComponent,
-    ThemeSwitcherComponent
+    ThemeSwitcherComponent,
+    HeaderPageComponent
   ],
 })
 export class CompartidoModule {}

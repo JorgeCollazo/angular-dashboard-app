@@ -1,9 +1,5 @@
-.full-width-table {
-  width: 100%;
-}
-
 mat-form-field {
-  margin: 0 20px;
+  width: 100%;
 }
 
 mat-card-content {
@@ -14,16 +10,37 @@ mat-chip {
   color: white !important;
 }
 
+td {
+  text-align: center;
+}
+
 #export-button-ID {
-	height: 100%;
+  width: 100%;
 	align-self: center;
 }
 
-#filter-button-ID, #filter-off-button-ID {
+#filter-off-button-ID {
   margin-left: 16px;
+}
+
+#export-button-ID {
+  margin-top: 15px;
 }
 
 #filter-button-ID, #filter-off-button-ID, #export-button-ID {
   background-color: #3f51b5 !important;
   color: white !important;
+}
+
+.full-width-table {
+  width: 100%;
+}
+
+.actions-column {
+  display: flex;
+}
+
+.table-header {
+  font-size: 25px;
+  padding: 5px;
 }

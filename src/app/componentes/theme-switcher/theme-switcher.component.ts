@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 
 @Component({
@@ -14,9 +14,11 @@ export class ThemeSwitcherComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkDarkThemeActive();
+    this.onChange(true);
   }
 
   onChange(newValue: boolean):void {
+
     if(newValue) {
       this.document.body.classList.add('dark-mode');
       this.isDarkThemeActive = true;

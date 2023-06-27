@@ -58,12 +58,28 @@ a[data-toggle="collapse"] {
     position: relative;
 }
 
+.logout-container {
+  display: flex;
+  margin-left: 1rem;
+  float: right;
+}
+
+.pr-0 {
+  padding-right: 0;
+}
+
 #content {
     /* width: 100%; */
     /* padding: 20px; */
     min-height: 100vh;
     transition: all 0.3s;
     /* background-color: #f2f6fc; */
+}
+
+.navbar-brand {
+  font-size: 1rem;
+  margin-right: 0;
+  margin-left: 0.5rem;
 }
 
 @media (max-width: 768px) {

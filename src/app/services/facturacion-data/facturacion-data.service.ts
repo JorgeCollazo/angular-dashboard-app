@@ -14,19 +14,31 @@ export class FacturacionDataService {
   private facturacionData: DataScheme[] =
   [
     {
-      "name": "Germany",
-      "value": 8940000
-    },
-    {
-      "name": "USA",
+      "name": "Aprobados",
       "value": 5000000
     },
     {
-      "name": "Panama",
+      "name": "Pendientes",
       "value": 7200000
     },
       {
-      "name": "UK",
+      "name": "Rechazados",
+      "value": 6200000
+    }
+  ];
+
+  private facturacionData2: DataScheme[] =
+  [
+    {
+      "name": "Factura",
+      "value": 5000000
+    },
+    {
+      "name": "Débito",
+      "value": 7200000
+    },
+      {
+      "name": "Crédito",
       "value": 6200000
     }
   ];
@@ -35,5 +47,9 @@ export class FacturacionDataService {
 
   get getFacturacionData() {
     return this.facturacionData;
+  }
+
+  get getFacturacionData2() {
+    return this.facturacionData2;
   }
 }

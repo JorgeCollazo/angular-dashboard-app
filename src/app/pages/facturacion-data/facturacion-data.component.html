@@ -1,43 +1,51 @@
-
 <div class="container">
+  <app-header-page [title]="'Datos Facturas'"></app-header-page>
   <div class="row">
     <div class="col-12">
       <mat-card>
         <mat-card-content>Filtros</mat-card-content>
         <form #filteringForm="ngForm">
-          <mat-form-field class="example-full-width">
-            <mat-label>Fecha inicio</mat-label>
-            <input matInput placeholder="Fecha inicio" type="date" #fechaInicioInput="ngModel" [(ngModel)]="fecha_inicio" name="fechaInicioName">
-          </mat-form-field>
-          <mat-form-field class="example-full-width">
-            <mat-label>Fecha fin</mat-label>
-            <input matInput placeholder="Fecha fin" type="date" #fechaFinInput="ngModel" [(ngModel)]="fecha_fin" name="fechaFinName">
-          </mat-form-field>
-          <mat-form-field class="example-full-width">
-            <mat-label>Sucursal</mat-label>
-            <input matInput placeholder="Sucursales" #sucursalInput="ngModel" [(ngModel)]="sucursal" name="sucursalName">
-          </mat-form-field>
-          <mat-form-field class="example-full-width">
-            <mat-label>Evento</mat-label>
-            <input matInput placeholder="Evento" #eventoInput="ngModel" [(ngModel)]="evento" name="eventoName">
-          </mat-form-field>
-          <mat-form-field class="example-full-width">
-            <mat-label>T.Pago</mat-label>
-            <input matInput placeholder="T.Pago" #tPagoInput="ngModel" [(ngModel)]="t_pago" name="tPagoName">
-          </mat-form-field>
-          <mat-form-field class="example-full-width">
-            <mat-label>Tipo Doc</mat-label>
-            <input matInput placeholder="Tipo Doc" #tDocInput="ngModel" [(ngModel)]="tipo_doc" name="tDocName">
-          </mat-form-field>
-          <mat-form-field class="example-full-width">
-            <mat-label>Tipo Op</mat-label>
-            <input matInput placeholder="Tipo Op" #tOpInput="ngModel" [(ngModel)]="tipo_op" name="tOpName">
-          </mat-form-field>
-          <mat-form-field class="example-full-width">
-            <mat-label>Estado</mat-label>
-            <input matInput placeholder="Status" #statusInput="ngModel" [(ngModel)]="status" name="statusName">
-          </mat-form-field>
           <div class="row">
+            <div class="col-12 col-lg-3">
+              <mat-form-field class="example-full-width">
+                <mat-label>Fecha inicio</mat-label>
+                <input matInput placeholder="Fecha inicio" type="date" #fechaInicioInput="ngModel" [(ngModel)]="fecha_inicio" name="fechaInicioName">
+              </mat-form-field>
+              <mat-form-field class="example-full-width">
+                <mat-label>Fecha fin</mat-label>
+                <input matInput placeholder="Fecha fin" type="date" #fechaFinInput="ngModel" [(ngModel)]="fecha_fin" name="fechaFinName">
+              </mat-form-field>
+            </div>
+            <div class="col-12 col-lg-3">
+              <mat-form-field class="example-full-width">
+                <mat-label>T.Pago</mat-label>
+                <input matInput placeholder="T.Pago" #tPagoInput="ngModel" [(ngModel)]="t_pago" name="tPagoName">
+              </mat-form-field>
+              <mat-form-field class="example-full-width">
+                <mat-label>Tipo Doc</mat-label>
+                <input matInput placeholder="Tipo Doc" #tDocInput="ngModel" [(ngModel)]="tipo_doc" name="tDocName">
+              </mat-form-field>
+            </div>
+            <div class="col-12 col-lg-3">
+              <mat-form-field class="example-full-width">
+                <mat-label>Tipo Op</mat-label>
+                <input matInput placeholder="Tipo Op" #tOpInput="ngModel" [(ngModel)]="tipo_op" name="tOpName">
+              </mat-form-field>
+              <mat-form-field class="example-full-width">
+                <mat-label>Estado</mat-label>
+                <input matInput placeholder="Status" #statusInput="ngModel" [(ngModel)]="status" name="statusName">
+              </mat-form-field>
+            </div>
+            <div class="col-12 col-lg-3">
+              <mat-form-field class="example-full-width">
+                <mat-label>Sucursal</mat-label>
+                <input matInput placeholder="Sucursales" #sucursalInput="ngModel" [(ngModel)]="sucursal" name="sucursalName">
+              </mat-form-field>
+              <mat-form-field class="example-full-width">
+                <mat-label>Evento</mat-label>
+                <input matInput placeholder="Evento" #eventoInput="ngModel" [(ngModel)]="evento" name="eventoName">
+              </mat-form-field>
+            </div>
             <div class="col-12">
               <button mat-raised-button color="primary" id="filter-button-ID">Filtrar <mat-icon>filter_alt</mat-icon></button>
               <button mat-raised-button color="primary" id="filter-off-button-ID" (click)="resetForm(filteringForm)">Limpiar <mat-icon>filter_alt_off</mat-icon></button>
@@ -48,27 +56,28 @@
       </mat-card>
     </div>
   </div>
-  <div class="row">
-    <div class="col-12">
-      <div class="d-flex justify-content-between">
-        <button mat-raised-button [matMenuTriggerFor]="menu" color="primary" id="export-button-ID">Exportar <mat-icon>picture_as_pdf</mat-icon></button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item>PDF</button>
-          <button mat-menu-item>CSV</button>
-          <button mat-menu-item>XLSX</button>
-        </mat-menu>
-        <mat-form-field class="my-3">
-          <mat-label>Buscar</mat-label>
-          <input matInput placeholder="Status" (keyup)="applyFilter($event)">
-          <mat-icon matSuffix>search</mat-icon>
-        </mat-form-field>
-      </div>
+  <div class="row justify-content-between">
+    <div class="col-12 col-sm-4 col-lg-3 col-xl-2 d-flex">
+      <button mat-raised-button [matMenuTriggerFor]="menu" color="primary" id="export-button-ID">Exportar <mat-icon>picture_as_pdf</mat-icon></button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>PDF</button>
+        <button mat-menu-item>CSV</button>
+        <button mat-menu-item>XLSX</button>
+      </mat-menu>
+    </div>
+    <div class="col-12 col-sm-4 col-lg-3 col-xl-2">
+      <mat-form-field class="my-3">
+        <mat-label>Buscar</mat-label>
+        <input matInput placeholder="Status" (keyup)="applyFilter($event)">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
     </div>
   </div>
   <div class="row">
     <div class="col-12">
-      <div class="mat-elevation-z8">
-        <table mat-table class="full-width-table" matSort aria-label="Elements">
+      <div class="mat-elevation-z8 table-responsive">
+        <div class="table-header">Facturas</div>
+        <table mat-table class="full-width-table table-responsive" matSort aria-label="Elements">
           <!-- Nro. Column -->
           <ng-container matColumnDef="nro">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Nro.</th>
@@ -128,7 +137,7 @@
           <!-- Actions Column -->
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef>Acciones</th>
-            <td mat-cell *matCellDef="let row">
+            <td mat-cell *matCellDef="let row" class="actions-column">
               <button mat-icon-button>
                 <mat-icon> mail </mat-icon>
               </button>
@@ -144,7 +153,6 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
-
         <mat-paginator #paginator
             [length]="dataSource.data.length"
             [pageIndex]="0"

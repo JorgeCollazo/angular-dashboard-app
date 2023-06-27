@@ -20,6 +20,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
 import { FormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,9 @@ import { FormsModule } from '@angular/forms';
     MatPaginatorModule,
     MatSortModule,
     MatInputModule,
-    MatChipsModule
+    MatChipsModule,
+    MatSelectModule,
+    MatButtonToggleModule
   ]
 })
 export class PagesModule { }
