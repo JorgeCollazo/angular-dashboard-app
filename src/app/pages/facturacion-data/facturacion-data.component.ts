@@ -1,17 +1,15 @@
-import { AfterViewInit, Component, ViewChild, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { FacturacionDataItem } from './facturacion-data-datasource';
 import { EXAMPLE_DATA } from './facturacion-data-datasource'
 import { NgForm } from '@angular/forms';
-import { FacturacionDataService } from './facturacion-data.service';
-interface Post {
-  userId: number;
-  id: number;
-  title: string;
-  completed: string;
-}
+import { FacturacionDataService } from '../../services/facturacion-data/facturacion-data.service';
+import { Subscription } from 'rxjs';
+import { IDataSucursalScheme } from 'src/app/interfaces/sucursal.interface';
+import { IDataSchemeFormaPago } from 'src/app/interfaces/forma_pago.interface';
+import { IDataSchemeNatOperation } from 'src/app/interfaces/nat_operacion.interface';
 
 @Component({
   selector: 'app-facturacion-data',
@@ -19,7 +17,7 @@ interface Post {
   styleUrls: ['./facturacion-data.component.css']
 })
 
-export class FacturacionDataComponent implements AfterViewInit, OnInit {
+export class FacturacionDataComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<FacturacionDataItem>;
@@ -28,12 +26,18 @@ export class FacturacionDataComponent implements AfterViewInit, OnInit {
 
   fecha_inicio: Date = new Date();
   fecha_fin: Date = new Date();
-  sucursal: string = "";
+  sucursal_id: string = '';
   evento: string = "";
   t_pago: string = "";
   tipo_doc: string = "";
   tipo_op: string = "";
   status: string = "";
+  sucursales: IDataSucursalScheme[] = [];
+  formasPago: IDataSchemeFormaPago[] = [];
+  natOperaciones: IDataSchemeNatOperation[] = [];
+  private datosSucursales: Subscription = new Subscription();
+  private formasPago$: Subscription = new Subscription();
+  private natOperacion$: Subscription = new Subscription();
 
   EXAMPLE_DATA: FacturacionDataItem[] = [
     {nro: 1, fecha_creacion: new Date(), fecha_inicio: new Date(), t_pago: 51, t_doc: 15, t_op: 71, status: 1, evento: 1, sucursal: 'Xtra'},
@@ -48,22 +52,44 @@ export class FacturacionDataComponent implements AfterViewInit, OnInit {
   /* Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['nro', 'fecha_creacion', 'evento', 'sucursal', 't_pago', 't_doc', 't_op', 'status', 'actions'];
 
-  constructor(private facturacionService: FacturacionDataService) {
+  constructor(private facturacionDataService: FacturacionDataService) {
     this.dataSource = new MatTableDataSource<FacturacionDataItem>(EXAMPLE_DATA);
   }
 
   ngOnInit(): void {
     for(let i=0; EXAMPLE_DATA.length<100; i++) {
-      let j = this.getRandomInt(6)
+      let j = this.getRandomInt(6);
       EXAMPLE_DATA.push(EXAMPLE_DATA[j]);
     }
     console.log(EXAMPLE_DATA);
+    this.facturacionDataService.getSucursales();
+    this.datosSucursales = this.facturacionDataService.getDatosSucursalesListener.subscribe(
+      (sucursales => {
+        this.sucursales = sucursales;
+      })
+  );
+
+  this.formasPago$ = this.facturacionDataService.getFormaPago()
+    .subscribe((formasPago) => {
+      this.formasPago = formasPago;
+    })
+
+    this.natOperacion$ = this.facturacionDataService.getNatOperacion()
+    .subscribe((natOper)=> {
+      this.natOperaciones = natOper;
+    })
+
   }
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.table.dataSource = this.dataSource;
+  }
+
+  ngOnDestroy() {
+    this.formasPago$.unsubscribe();
+    this.natOperacion$.unsubscribe();
   }
 
   applyFilter(event: Event): void {
@@ -77,5 +103,9 @@ export class FacturacionDataComponent implements AfterViewInit, OnInit {
 
   getRandomInt(max: number) {
     return Math.floor(Math.random() * max);
+  }
+
+  onSucursalChangeSelection(e: any): void {
+    this.sucursal_id = e.value;
   }
 }

@@ -14,6 +14,7 @@ export class LoginDto {
 
 export class Usuario {
     nivel: number = 0;
+    idempresa: number = 0;
     nombre: string = '';
     nombreRol: string = '';
     rol_id: number = 0;

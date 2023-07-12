@@ -6,7 +6,6 @@ import { InicioComponent } from './inicio/inicio.component';
 import { ConteoMesaComponent } from './mesa-conteo/conteo-mesa/conteo-mesa.component';
 import { AppComponent } from '../app.component';
 import { FotoMesaComponent } from './mesa-conteo/foto-mesa/foto-mesa.component';
-import { SeleccionMesaComponent } from './mesa-conteo/seleccion-mesa/seleccion-mesa.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { FacturacionDataComponent } from './facturacion-data/facturacion-data.component';
 

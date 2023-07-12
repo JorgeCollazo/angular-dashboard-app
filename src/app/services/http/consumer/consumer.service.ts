@@ -37,7 +37,7 @@ export class ConsumerService {
     })
   }
 
-  /* Prara guardar registros u hacer cualquier proceso indicado por el api que requiera post */
+  // /* Prara guardar registros u hacer cualquier proceso indicado por el api que requiera post */
   async Post(url: string, data: any) {
     return new Promise<IConsumer>((resolve, reject) => {
       this.http.post(this.global.SRV + url, data).subscribe({
@@ -47,7 +47,6 @@ export class ConsumerService {
       });
     })
   }
-
 
   /* para Actualizar registros */
   async Update(url: string, data: any) {
@@ -59,7 +58,7 @@ export class ConsumerService {
       });
     })
   }
-  
+
 
   /* Para ELIMINAR registros */
   async Delete(url: string) {

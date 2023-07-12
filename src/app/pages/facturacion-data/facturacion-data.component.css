@@ -39,8 +39,3 @@ td {
 .actions-column {
   display: flex;
 }
-
-.table-header {
-  font-size: 25px;
-  padding: 5px;
-}

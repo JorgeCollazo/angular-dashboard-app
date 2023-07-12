@@ -68,6 +68,7 @@ export class AuthComponent implements OnInit {
       let Datos: LoginDto = consumerApiOrden.data;
       /* Valida que la respuesta del api sea correcta. */
       if (Datos.success) {
+
         /* Guarda los datatos del usuario Logeado */
         let datosUsuario: Usuario = Datos.usuario;
         this.global.InfoUsr = datosUsuario;
@@ -75,6 +76,9 @@ export class AuthComponent implements OnInit {
         this.global.Token = Datos.token;
         // this.router.navigate(['./app/pages/inicio']);
         /* Valida que tenga permisos para las diferentes vistas de la aplicacion */
+
+        Datos.permisos = [];          // Hardcoded in order to keep forward with the authentication process
+
         if (Datos.permisos) {
           /* Guarda los datos de los permisos */
           let permisosUsuario: Permisos[] = Datos.permisos;
@@ -109,7 +113,7 @@ export class AuthComponent implements OnInit {
     }
 
     if (valida_cambio_url == 0) {
-      this.router.navigate(['./app/pages/inicio']);
+      this.router.navigate(['./app/pages/dashboard']);
     }
   }
 

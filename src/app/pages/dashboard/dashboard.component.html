@@ -1,29 +1,45 @@
 <div class="container">
-  <app-header-page [title]="'Dashboard'"></app-header-page>
+  <app-header-page [title]="'Dashboard - Facturas'"></app-header-page>
   <div class="row">
     <div class="col-12">
       <mat-card>
-        <mat-card-content class="d-flex justify-content-between align-items-center">
+        <mat-card-content
+          class="d-flex justify-content-between align-items-center"
+        >
           <div class="container">
             <div class="row">
               <div class="col-12 col-xl-7 d-flex custom-title-fecha">
-                <h5 class="align-self-center">Última Actualización: <span>{{ lastDay }}</span></h5>
+                <h5 class="align-self-center">
+                  Última Actualización: <span>{{ lastDateTimeUpdate }}</span>
+                </h5>
               </div>
               <div class="col-12 col-md-6 col-xl-3">
                 <mat-form-field class="mx-4">
                   <mat-label>Sucursal</mat-label>
-                  <mat-select>
-                    <mat-option *ngFor="let sucursal of sucursales" [value]="sucursal.id">
-                      {{sucursal.name}}
+                  <mat-select
+                    [value]="sucursal_id"
+                    (selectionChange)="onSucursalChangeSelection($event)"
+                  >
+                    <mat-option
+                      *ngFor="let sucursal of sucursales"
+                      [value]="sucursal.cod"
+                    >
+                      {{ sucursal.nombre }}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
               <div class="col-12 col-md-5 offset-md-1 offset-xl-0 col-xl-2">
-                <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-                  <mat-button-toggle value="bold">Día</mat-button-toggle>
-                  <mat-button-toggle value="italic">Mes</mat-button-toggle>
-                  <mat-button-toggle value="underline">Año</mat-button-toggle>
+                <mat-button-toggle-group
+                  name="fontStyle"
+                  aria-label="Font Style"
+                  (change)="onDateChange($event)"
+                >
+                  <mat-button-toggle value="1">Día</mat-button-toggle>
+                  <mat-button-toggle value="2">Mes</mat-button-toggle>
+                  <mat-button-toggle value="3" checked="true"
+                    >Año</mat-button-toggle
+                  >
                 </mat-button-toggle-group>
               </div>
             </div>
@@ -35,54 +51,71 @@
   <div class="row">
     <div class="col-12">
       <mat-card class="dashboard-card">
-        <mat-card-header>
-          <mat-card-title class="dashboard-card-content">
-            <div class="dashboard-card-content">Estado</div>
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="dashboard-card-content">
-          <div>
-            <ngx-charts-advanced-pie-chart
-              [view]="view"
-              [activeEntries]="activeEntries"
-              [scheme]="colorScheme"
-              [results]="data"
-              [gradient]="gradient"
-              [animations]= true
-              (select)="onSelect($event)"
-              (activate)="onActivate($event)"
-              (deactivate)="onDeactivate($event)"
+        <mat-spinner [diameter]="130" *ngIf="is_loading_spinner_estados"></mat-spinner>
+        <span class="text-center">
+          <h2 *ngIf="!is_data_estado_loaded">
+            <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="warning" inline="true"></mat-icon>
+            Error al cargar los datos!
+          </h2>
+        </span>
+        <div *ngIf="!is_loading_spinner_estados && is_data_estado_loaded">
+          <mat-card-header>
+            <mat-card-title class="dashboard-card-content">
+              <div class="dashboard-card-content">Estado</div>
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="dashboard-card-content">
+            <div>
+              <ngx-charts-advanced-pie-chart
+                [view]="view"
+                [activeEntries]="activeEntries"
+                [scheme]="colorScheme"
+                [results]="facturasEstado"
+                [gradient]="gradient"
+                [animations]="true"
+                (select)="onSelect($event)"
+                (activate)="onActivate($event)"
+                (deactivate)="onDeactivate($event)"
               >
-          </ngx-charts-advanced-pie-chart>
-          </div>
-        </mat-card-content>
+              </ngx-charts-advanced-pie-chart>
+            </div>
+          </mat-card-content>
+        </div>
       </mat-card>
     </div>
     <div class="col-12">
       <mat-card class="dashboard-card">
-        <mat-card-header>
-          <mat-card-title class="dashboard-card-content">
-            <div class="dashboard-card-content">Tipo de Documento</div>
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="dashboard-card-content">
-          <div>
-            <ngx-charts-advanced-pie-chart
-              [view]="view"
-              [activeEntries]="activeEntries"
-              [scheme]="colorScheme"
-              [results]="data2"
-              [gradient]="gradient"
-              [animations]= true
-              (select)="onSelect($event)"
-              (activate)="onActivate($event)"
-              (deactivate)="onDeactivate($event)"
+        <mat-spinner [diameter]="130" *ngIf="is_loading_spinner_tipo_doc"></mat-spinner>
+        <span class="text-center">
+          <h2 *ngIf="!is_data_tipo_Doc_loaded">
+            <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="warning" inline="true"></mat-icon>
+            Error al cargar los datos!
+          </h2>
+        </span>
+        <div *ngIf="!is_loading_spinner_tipo_doc && is_data_tipo_Doc_loaded">
+          <mat-card-header>
+            <mat-card-title class="dashboard-card-content">
+              <div class="dashboard-card-content">Tipo de Documento</div>
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="dashboard-card-content">
+            <div>
+              <ngx-charts-advanced-pie-chart
+                [view]="view"
+                [activeEntries]="activeEntries"
+                [scheme]="colorScheme"
+                [results]="facturasTipoDoc"
+                [gradient]="gradient"
+                [animations]="true"
+                (select)="onSelect($event)"
+                (activate)="onActivate($event)"
+                (deactivate)="onDeactivate($event)"
               >
-          </ngx-charts-advanced-pie-chart>
-          </div>
-        </mat-card-content>
+              </ngx-charts-advanced-pie-chart>
+            </div>
+          </mat-card-content>
+        </div>
       </mat-card>
     </div>
   </div>
 </div>
-

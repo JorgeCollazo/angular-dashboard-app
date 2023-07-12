@@ -19,7 +19,15 @@
             <div class="col-12 col-lg-3">
               <mat-form-field class="example-full-width">
                 <mat-label>T.Pago</mat-label>
-                <input matInput placeholder="T.Pago" #tPagoInput="ngModel" [(ngModel)]="t_pago" name="tPagoName">
+                <mat-select
+              >
+                <mat-option
+                  *ngFor="let formaPago of formasPago"
+                  [value]="formaPago.cod"
+                >
+                  {{ formaPago.desc }}
+                </mat-option>
+              </mat-select>
               </mat-form-field>
               <mat-form-field class="example-full-width">
                 <mat-label>Tipo Doc</mat-label>
@@ -29,7 +37,15 @@
             <div class="col-12 col-lg-3">
               <mat-form-field class="example-full-width">
                 <mat-label>Tipo Op</mat-label>
-                <input matInput placeholder="Tipo Op" #tOpInput="ngModel" [(ngModel)]="tipo_op" name="tOpName">
+                <mat-select
+              >
+                <mat-option
+                  *ngFor="let natOperacion of natOperaciones"
+                  [value]="natOperacion.cod"
+                >
+                  {{ natOperacion.desc }}
+                </mat-option>
+              </mat-select>
               </mat-form-field>
               <mat-form-field class="example-full-width">
                 <mat-label>Estado</mat-label>
@@ -39,7 +55,15 @@
             <div class="col-12 col-lg-3">
               <mat-form-field class="example-full-width">
                 <mat-label>Sucursal</mat-label>
-                <input matInput placeholder="Sucursales" #sucursalInput="ngModel" [(ngModel)]="sucursal" name="sucursalName">
+                <mat-select
+              >
+                <mat-option
+                  *ngFor="let sucursal of sucursales"
+                  [value]="sucursal.cod"
+                >
+                  {{ sucursal.nombre }}
+                </mat-option>
+              </mat-select>
               </mat-form-field>
               <mat-form-field class="example-full-width">
                 <mat-label>Evento</mat-label>
@@ -76,7 +100,6 @@
   <div class="row">
     <div class="col-12">
       <div class="mat-elevation-z8 table-responsive">
-        <div class="table-header">Facturas</div>
         <table mat-table class="full-width-table table-responsive" matSort aria-label="Elements">
           <!-- Nro. Column -->
           <ng-container matColumnDef="nro">
