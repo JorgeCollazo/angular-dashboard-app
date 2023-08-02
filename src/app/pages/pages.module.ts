@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { PagesRoutingModule } from './pages-routing.module';
 import { InicioComponent } from './inicio/inicio.component';
@@ -23,6 +23,8 @@ import { FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -50,8 +52,12 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatChipsModule,
     MatSelectModule,
     MatButtonToggleModule,
-    MatProgressSpinnerModule
-
+    MatProgressSpinnerModule,
+    MatDatepickerModule,
+    MatNativeDateModule
+  ],
+  providers: [
+    DatePipe
   ]
 })
 export class PagesModule { }

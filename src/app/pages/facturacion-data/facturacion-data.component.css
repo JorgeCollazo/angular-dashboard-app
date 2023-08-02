@@ -10,10 +10,6 @@ mat-chip {
   color: white !important;
 }
 
-td {
-  text-align: center;
-}
-
 #export-button-ID {
   width: 100%;
 	align-self: center;
@@ -38,4 +34,10 @@ td {
 
 .actions-column {
   display: flex;
+}
+
+.custom-mat-icon {
+  height: 45px;
+  width: 55px;
+  font-size: 48px;
 }

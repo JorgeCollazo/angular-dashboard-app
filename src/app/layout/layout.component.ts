@@ -51,9 +51,6 @@ export class LayoutComponent implements OnInit {
     this.menu.push(this.dataToFilter);
     this.menu.push(this.dashboard);
 
-    console.log(this.global.InfoMenu);
-    console.log(this.menu);
-
   }
 
   open() {

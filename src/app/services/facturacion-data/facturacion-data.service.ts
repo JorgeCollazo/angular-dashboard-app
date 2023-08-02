@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subject, map } from 'rxjs';
+import { Observable, Subject, map, shareReplay } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 import { IDataSchemeEstado } from '../../interfaces/estado.interface';
@@ -8,10 +8,12 @@ import { IDataSchemeTipoDoc } from '../../interfaces/tipoDoc.interface';
 import { IDataScheme } from '../../interfaces/factura.interface';
 import { IDataSucursalScheme } from '../../interfaces/sucursal.interface';
 import { PGlobal } from '../globales';
-import { IDataSchemeFormaPago } from 'src/app/interfaces/forma_pago.interface';
-import { IDataSchemeNatOperation } from 'src/app/interfaces/nat_operacion.interface';
+import { IDataSchemeCommon } from 'src/app/interfaces/common.interface';
+import { IDataFacturaScheme } from 'src/app/interfaces/facturaData.interface';
+import { FormGroup } from '@angular/forms';
 
 const BACKEND_URL = environment.SRV + "api/Interface/";
+const BACKEND_URL_CONSULTAFE = environment.SRV + "api/ConsultaFE/";
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +32,9 @@ export class FacturacionDataService {
   private lastDateTimeUpdateSub = new Subject<string>();
   private global: PGlobal = new PGlobal;
   private id_empresa: number = -1;
+  private facturasUpdated = new Subject<{facturas: IDataFacturaScheme[], facturasTotal: number, message: string, success: boolean}>();
+  private facturas: IDataFacturaScheme[] = [];
+  // private isDataTablaLoadedSub = new Subject<boolean>();
 
   constructor(private http: HttpClient) { }
 
@@ -48,11 +53,20 @@ export class FacturacionDataService {
   get getLastDateUpdateListener() {
     return this.lastDateTimeUpdateSub.asObservable();
   }
+
+  getFacturasUpdatedListener() {
+    return this.facturasUpdated.asObservable();
+  }
+
+  // getIsDataTablaLoadedListener() {
+  //   return this.isDataTablaLoadedSub.asObservable();
+  // }
+
   setId_empresa() {
     this.id_empresa = this.global.InfoUsr.idempresa;
   }
 
-  getFacturasEstado(date_id: number, id_sucursal: string) {
+  getFacturasEstado(date_id: number, id_sucursal: string): void {
 
     this.setId_empresa();
 
@@ -78,7 +92,7 @@ export class FacturacionDataService {
     });
   }
 
-  getFacturasTipoDoc(date_id: number, id_sucursal: string) {
+  getFacturasTipoDoc(date_id: number, id_sucursal: string): void {
     this.setId_empresa();
     this.http.get<IDataSchemeTipoDoc>(BACKEND_URL + 'GetFEresumenDoc/' + date_id + ',' + id_sucursal + ',' + this.id_empresa)
     .pipe(
@@ -102,8 +116,8 @@ export class FacturacionDataService {
     });
   }
 
-  getServerDateTime() {
-    this.http.get<{cur_date_time: Date, message: string, success: boolean}>('https://localhost:44334/api/Interface/GetServerInfo/')
+  getServerDateTime(): void {
+    this.http.get<{cur_date_time: Date, message: string, success: boolean}>(BACKEND_URL + 'GetServerInfo')
     .subscribe(res => {
       console.log(res);
       if(res.success) {
@@ -113,7 +127,7 @@ export class FacturacionDataService {
     });
   }
   // Approach 1
-  getSucursales() {
+  getSucursales(): void {
     this.http.get<{success: boolean, message: string, sucursalList: IDataSucursalScheme[]}>(BACKEND_URL + 'GetSucursal/' +  this.global.InfoUsr.usuario_id)
     .subscribe(res => {
       this.sucursales = res.sucursalList
@@ -121,17 +135,81 @@ export class FacturacionDataService {
     });
   }
   //Approach 2
-  getFormaPago() {
-    return this.http.get<{success: boolean, message: string, formaPagoList: IDataSchemeFormaPago[]}>(BACKEND_URL + 'GetFormaPago')
-              .pipe(
-                map((response) => response['formaPagoList'])
-              )
+  getFormaPago(): Observable<any> {
+    return this.http.get<{success: boolean, message: string, formaPagoList: IDataSchemeCommon[]}>(BACKEND_URL + 'GetFormaPago')
+      .pipe(
+        map((response) => response['formaPagoList'])
+      )
   }
 
-  getNatOperacion() {
-    return this.http.get<{success: boolean, message: string, natOperList: IDataSchemeNatOperation[]}>(BACKEND_URL + 'GetNatOper')
-              .pipe(
-                map((response) => response['natOperList'])
-              )
+  getNatOperacion(): Observable<any> {
+    return this.http.get<{success: boolean, message: string, natOperList: IDataSchemeCommon[]}>(BACKEND_URL + 'GetNatOper')
+      .pipe(
+        map((response) => response['natOperList']),
+      )
+  }
+
+  getTipoDoc(): Observable<any> {
+    return this.http.get<{success: boolean, message: string, tipoDocList: IDataSchemeCommon[]}>(BACKEND_URL + 'GetTipoDoc')
+      .pipe(
+        map((response) => response['tipoDocList']),
+      )
+  }
+
+  getFEstatus(): Observable<any> {
+    return this.http.get<{success: boolean, message: string, estatusDocList: IDataSchemeCommon[]}>(BACKEND_URL + 'GetFEstatus')
+      .pipe(
+        map((response) => response['estatusDocList']),
+      )
+  }
+
+  getFacturasData(filteringData: any): void {
+    this.http.post<{success: boolean, rows: number, message: string, consultaFEList: IDataFacturaScheme[]}>(BACKEND_URL_CONSULTAFE + 'GetConsultaFE/', filteringData)
+      .pipe(
+        map((response) => {
+          // console.log('response>>>>>', response.rows);
+          return {
+            facturas: response['consultaFEList'],
+            facturasTotal: response.rows,
+            message: response.message,
+            success: response.success,
+          }
+      }),
+    ).subscribe({
+      next: updatedFacturas => {
+        this.facturas = updatedFacturas.facturas ?? [];
+        this.facturasUpdated.next({
+          facturas: [...this.facturas],
+          facturasTotal: updatedFacturas.facturasTotal,
+          message: updatedFacturas.message,
+          success: updatedFacturas.success,
+        });
+        // if(updatedFacturas.success) {
+        //   this.isDataTablaLoadedSub.next(true);
+        // } else {
+        //   this.isDataTablaLoadedSub.next(false);
+        // }
+      },
+      error: error => {
+        console.log('error>>>>', error);
+        // this.isDataTablaLoadedSub.next(false);
+      }
+    });
+  }
+
+  downloadCaffePDF(url: string, fileName: string) {
+    this.http.get(url, { responseType: 'blob' }).subscribe((response: Blob) => {
+      const blob = new Blob([response], { type: 'application/pdf' });
+      const downloadLink = document.createElement('a');
+      downloadLink.href = URL.createObjectURL(blob);
+      downloadLink.download = fileName;
+      downloadLink.click();
+    });
   }
 }
+
+// updatedFacturas => {
+//   // console.log('updatedFactura>>>>>', updatedFacturas);
+
+
+// }
