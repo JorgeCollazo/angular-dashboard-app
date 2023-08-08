@@ -77,7 +77,7 @@ export class AuthComponent implements OnInit {
         // this.router.navigate(['./app/pages/inicio']);
         /* Valida que tenga permisos para las diferentes vistas de la aplicacion */
 
-        Datos.permisos = [];          // Hardcoded in order to keep forward with the authentication process
+        Datos.permisos = [];          // Hardcoded in order to keep forward with authentication process
 
         if (Datos.permisos) {
           /* Guarda los datos de los permisos */

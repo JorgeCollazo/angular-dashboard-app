@@ -47,9 +47,10 @@ export class LayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.menu = alasql("SELECT * FROM ? WHERE muestra = 1 ORDER BY `order`", [this.global.InfoMenu]);
+    console.log('this.menu>>>>>>>', this.menu);
 
-    this.menu.push(this.dataToFilter);
     this.menu.push(this.dashboard);
+    this.menu.push(this.dataToFilter);
 
   }
 

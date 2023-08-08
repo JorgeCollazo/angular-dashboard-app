@@ -28,7 +28,7 @@ export class FacturacionDataService {
 
   private datosFacturasSub = new Subject<IDataScheme[]>();
   private datosFacturasTipoDocSub = new Subject<IDataScheme[]>();
-  private datosSucursalSub = new Subject<IDataSucursalScheme[]>();
+  private datosSucursalSub = new Subject<{success: boolean, message: string, sucursalList: IDataSucursalScheme[]}>();
   private lastDateTimeUpdateSub = new Subject<string>();
   private global: PGlobal = new PGlobal;
   private id_empresa: number = -1;
@@ -128,11 +128,22 @@ export class FacturacionDataService {
   }
   // Approach 1
   getSucursales(): void {
-    this.http.get<{success: boolean, message: string, sucursalList: IDataSucursalScheme[]}>(BACKEND_URL + 'GetSucursal/' +  this.global.InfoUsr.usuario_id)
-    .subscribe(res => {
-      this.sucursales = res.sucursalList
-      this.datosSucursalSub.next([...this.sucursales]);
-    });
+    this.http.get<{success: boolean, message: string, sucursalList: IDataSucursalScheme[]}>(BACKEND_URL + 'GetSucursal/' +  this.global.InfoUsr.usuario_id)  
+    .subscribe(
+      {
+      next: res => {console.log('res>>>>', res);
+        this.sucursales = res.sucursalList
+        this.datosSucursalSub.next({success: res.success, message: res.message, sucursalList: [...this.sucursales]});
+      },
+      error: err => {
+        console.log('err>>>>', err);
+      }
+    },
+      // res => {  console.log('sucursales>>>>', res);
+      // this.sucursales = res.sucursalList
+      // this.datosSucursalSub.next([...this.sucursales]);
+    // }
+    );
   }
   //Approach 2
   getFormaPago(): Observable<any> {

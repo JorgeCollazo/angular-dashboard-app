@@ -13,7 +13,7 @@ import { IDataFacturaScheme } from 'src/app/interfaces/facturaData.interface';
 // import { FacturacionDataItem } from './facturacion-data-datasource';
 import { EXAMPLE_DATA } from './facturacion-data-datasource'
 import { FacturacionDataService } from '../../services/facturacion-data/facturacion-data.service';
-
+import {MatTooltipModule} from '@angular/material/tooltip';
 @Component({
   selector: 'app-facturacion-data',
   templateUrl: './facturacion-data.component.html',
@@ -56,8 +56,10 @@ export class FacturacionDataComponent implements OnInit, OnDestroy {
   private feStatus$: Subscription = new Subscription();
   private facturaData$: Subscription = new Subscription();
   tableDataSet: boolean = false;
-  isDataTablaLoaded: boolean = true;
+  isDataTablaLoaded: boolean = false;
   resultMessage: string = '';
+  isSucursalLoaded: boolean = false;
+  isSpinnerLoading: boolean = true;
   // private isDataTablaLoadedSub$: Subscription = new Subscription();
 
   filteringData = {
@@ -121,8 +123,9 @@ export class FacturacionDataComponent implements OnInit, OnDestroy {
 
     this.facturacionDataService.getSucursales();
     this.datosSucursales = this.facturacionDataService.getDatosSucursalesListener.subscribe(
-      (sucursales => {
-        this.sucursales = sucursales;
+      (sucursales => { console.log('sucursales>>>>', sucursales);
+
+        this.sucursales = sucursales.sucursalList;
       })
     );
 
@@ -154,6 +157,7 @@ export class FacturacionDataComponent implements OnInit, OnDestroy {
       this.facturasTotalAmount = facturaData.facturasTotal;
       this.isDataTablaLoaded = facturaData.success;
       this.resultMessage = facturaData.message;
+      this.isSpinnerLoading = false;
       this.setTableData();
     });
     // this.isDataTablaLoadedSub$ = this.facturacionDataService.getIsDataTablaLoadedListener()
@@ -232,6 +236,7 @@ export class FacturacionDataComponent implements OnInit, OnDestroy {
   }
 
   getFacturaData(filteringData: any) {
+
     this.facturacionDataService.getFacturasData(filteringData);
       // .subscribe((factura) => {
       //   this.facturaDataList = factura.facturas;
@@ -265,8 +270,9 @@ export class FacturacionDataComponent implements OnInit, OnDestroy {
   downloadCaffePDF(facturaNumber: number) {
 
     const isSigned = true;
+    facturaNumber = 1024139574;
     // const url = 'https://factura.key-pac.com/KeyPac/Facturacion/ExportZip/' + facturaNumber + '?issigned=' + isSigned;
-    const url = 'https://ipv4.download.thinkbroadband.com/100MB.zip';
+    const url = window.location.origin + "/assets/" + facturaNumber + ".pdf";
     const name = 'Pdf name';
     console.log('url>>>>', url);
 

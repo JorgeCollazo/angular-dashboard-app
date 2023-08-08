@@ -26,7 +26,7 @@ export class PGlobal {
     public get permisos(): Permisos { return this.decrypParm((sessionStorage.getItem('permisos')) ? sessionStorage.getItem('permisos') : undefined); }
     public set permisos(Datospermisos: Permisos) { sessionStorage.setItem('permisos', this.encrypParm(Datospermisos)); }
 
-    
+
     /* Pasa un string a dato no legible por el usuario */
     public encrypParm(datos: any): string {
         return btoa(encodeURIComponent(JSON.stringify(datos)));

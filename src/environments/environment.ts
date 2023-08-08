@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   SRV: 'https://localhost:44334/',
+  SRV2: 'https://app.key-pac.com/KeyPacDashAPI/',
   VERSION: 'v1.0.0.0'
 };
 

@@ -25,6 +25,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatButtonToggleModule,
     MatProgressSpinnerModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatTooltipModule
   ],
   providers: [
     DatePipe

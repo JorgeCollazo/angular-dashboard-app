@@ -78,8 +78,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.datosSucursales = this.facturacionDataService.getDatosSucursalesListener.subscribe(
       (sucursales => {
 
-        this.sucursal_id = sucursales[0].cod    // Setting the code of the first sucursal
-        this.sucursales = sucursales;
+        this.sucursal_id = sucursales.sucursalList[0].cod    // Setting the code of the first sucursal
+        this.sucursales = sucursales.sucursalList;
 
         this.facturacionDataService.getFacturasEstado(
           this.date_id,
