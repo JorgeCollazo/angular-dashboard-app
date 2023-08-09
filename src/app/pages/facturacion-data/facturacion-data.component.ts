@@ -38,7 +38,7 @@ export class FacturacionDataComponent implements OnInit, OnDestroy {
   status: string = "";
   facturasPerPage: number = 10;
   currentPage: number = 1;
-  pageSizeOptions = [1, 5, 10, 20];
+  pageSizeOptions = [25,50,100];
   facturasTotalAmount: number = 0;
   sucursales: IDataSucursalScheme[] = [];
   formasPago: IDataSchemeCommon[] = [];
@@ -205,6 +205,7 @@ export class FacturacionDataComponent implements OnInit, OnDestroy {
   // }
 
   onChangePage(pageData: PageEvent) {
+    this.isSpinnerLoading = true;
   // this.facturasTotalAmount = pageData.length;
     this.currentPage = pageData.pageIndex + 1;
     this.facturasPerPage = pageData.pageSize;
@@ -230,6 +231,7 @@ export class FacturacionDataComponent implements OnInit, OnDestroy {
   }
 
   filterFacturaData() {
+    this.isSpinnerLoading = true;
     this.updateDataFactura();
     this.getFacturaData(this.filteringData);
 

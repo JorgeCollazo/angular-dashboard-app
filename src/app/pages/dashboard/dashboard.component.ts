@@ -77,7 +77,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.facturacionDataService.getSucursales();
     this.datosSucursales = this.facturacionDataService.getDatosSucursalesListener.subscribe(
       (sucursales => {
-
+console.log("sucursales>>>>", sucursales);
+        
         this.sucursal_id = sucursales.sucursalList[0].cod    // Setting the code of the first sucursal
         this.sucursales = sucursales.sucursalList;
 
@@ -96,10 +97,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.facturacionDataService.getDatosFacturasListener.subscribe(
         (facturasData: IDataScheme[]) => {
           this.facturasEstado = facturasData;
+console.log("facturasData>>>>", facturasData);
+          if (facturasData.length <= 0) { console.log('entreIF');
 
-          if (facturasData.length <= 0) {
             this.is_loading_spinner_estados = false;
-          } else {
+          } else {console.log('entreELSE');
             this.is_loading_spinner_estados = false;
             this.is_data_estado_loaded = true;
           }

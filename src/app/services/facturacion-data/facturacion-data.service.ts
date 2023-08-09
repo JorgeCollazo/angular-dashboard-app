@@ -128,11 +128,11 @@ export class FacturacionDataService {
   }
   // Approach 1
   getSucursales(): void {
-    this.http.get<{success: boolean, message: string, sucursalList: IDataSucursalScheme[]}>(BACKEND_URL + 'GetSucursal/' +  this.global.InfoUsr.usuario_id)  
+    this.http.get<{success: boolean, message: string, sucursalList: IDataSucursalScheme[]}>(BACKEND_URL + 'GetSucursal/' +  this.global.InfoUsr.usuario_id)
     .subscribe(
       {
       next: res => {console.log('res>>>>', res);
-        this.sucursales = res.sucursalList
+        this.sucursales = res.sucursalList ?? [];	
         this.datosSucursalSub.next({success: res.success, message: res.message, sucursalList: [...this.sucursales]});
       },
       error: err => {

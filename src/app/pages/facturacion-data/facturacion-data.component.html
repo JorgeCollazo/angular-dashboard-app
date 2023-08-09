@@ -120,7 +120,7 @@
           <h2>{{ resultMessage }}</h2>
         </div>
         <mat-spinner [diameter]="130" *ngIf="isSpinnerLoading" style="margin: auto;"></mat-spinner>
-        <div [style.display]="isDataTablaLoaded ? 'block' : 'none'">
+        <div [style.display]="(isDataTablaLoaded && !isSpinnerLoading)? 'block' : 'none'">
           <table mat-table class="full-width-table table-responsive" matSort aria-label="Elements">
             <!-- Nro. Column -->
             <ng-container matColumnDef="rownum">
