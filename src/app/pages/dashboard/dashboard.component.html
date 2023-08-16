@@ -1,11 +1,10 @@
 <div class="container">
-  <app-header-page [title]="'Dashboard - Facturas'"></app-header-page>
+  <app-header-page [title]="'Dashboard - Transacciones'"></app-header-page>
   <div class="row">
     <div class="col-12">
       <mat-card>
         <mat-card-content
-          class="d-flex justify-content-between align-items-center"
-        >
+          class="d-flex justify-content-between align-items-center">
           <div class="container">
             <div class="row">
               <div class="col-12 col-xl-7 d-flex custom-title-fecha">
@@ -31,15 +30,13 @@
               </div>
               <div class="col-12 col-md-5 offset-md-1 offset-xl-0 col-xl-2">
                 <mat-button-toggle-group
+                  #toggleGroupEstados
                   name="fontStyle"
                   aria-label="Font Style"
-                  (change)="onDateChange($event)"
-                >
+                  (change)="onDateChange($event)">
                   <mat-button-toggle value="1">Día</mat-button-toggle>
                   <mat-button-toggle value="2">Mes</mat-button-toggle>
-                  <mat-button-toggle value="3" checked="true"
-                    >Año</mat-button-toggle
-                  >
+                  <mat-button-toggle value="3" checked="true">Año</mat-button-toggle>
                 </mat-button-toggle-group>
               </div>
             </div>
@@ -61,7 +58,7 @@
         <div *ngIf="!is_loading_spinner_estados && is_data_estado_loaded">
           <mat-card-header>
             <mat-card-title class="dashboard-card-content">
-              <div class="dashboard-card-content">Estado</div>
+              <div class="dashboard-card-content">Transacciones Por Estado</div>
             </mat-card-title>
           </mat-card-header>
           <mat-card-content class="dashboard-card-content">
@@ -95,7 +92,7 @@
         <div *ngIf="!is_loading_spinner_tipo_doc && is_data_tipo_Doc_loaded">
           <mat-card-header>
             <mat-card-title class="dashboard-card-content">
-              <div class="dashboard-card-content">Tipo de Documento</div>
+              <div class="dashboard-card-content">Transacciones Aprobadas Por Tipo De Documento</div>
             </mat-card-title>
           </mat-card-header>
           <mat-card-content class="dashboard-card-content">

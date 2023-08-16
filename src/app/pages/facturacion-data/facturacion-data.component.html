@@ -1,5 +1,5 @@
 <div class="container">
-  <app-header-page [title]="'Datos Facturas'"></app-header-page>
+  <app-header-page [title]="'Datos Transacciones'"></app-header-page>
   <div class="row">
     <div class="col-12">
       <mat-card>
@@ -12,12 +12,14 @@
                 <input matInput [matDatepicker]="pickerIni" [formControl]="startDateControl">
                 <mat-datepicker-toggle matSuffix [for]="pickerIni"></mat-datepicker-toggle>
                 <mat-datepicker #pickerIni></mat-datepicker>
+                <mat-error *ngIf="filteringForm.get('startDateControl')?.hasError('required')">Fecha de Inicio requerida</mat-error>
               </mat-form-field>
               <mat-form-field>
                 <mat-label>Fecha fin</mat-label>
                 <input matInput [matDatepicker]="pickerFin" [formControl]="endDateControl">
                 <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
                 <mat-datepicker #pickerFin></mat-datepicker>
+                <mat-error *ngIf="filteringForm.get('endDateControl')?.hasError('required')">Fecha de Fin requerida</mat-error>
               </mat-form-field>
             </div>
             <div class="col-12 col-lg-3">
@@ -85,10 +87,16 @@
                 </mat-option>
               </mat-select>
               </mat-form-field>
+              <mat-form-field class="example-full-width">
+                <mat-label>RUC</mat-label>
+                <input matInput placeholder="RUC Transacción" value="" [formControlName]="'ruc'">
+              </mat-form-field>
             </div>
             <div class="col-12">
-              <button mat-raised-button color="primary" id="filter-button-ID" (click)="filterFacturaData()"> Filtrar <mat-icon>filter_alt</mat-icon></button>
-              <button mat-raised-button color="primary" id="filter-off-button-ID" (click)="resetForm()"> Limpiar <mat-icon>filter_alt_off</mat-icon></button>
+              <div class="filter-buttons-container">
+                <button mat-raised-button color="primary" id="filter-button-ID" (click)="filterFacturaData()"> Filtrar <mat-icon>filter_alt</mat-icon></button>
+                <button mat-raised-button color="primary" id="filter-off-button-ID" (click)="resetForm()"> Limpiar <mat-icon>filter_alt_off</mat-icon></button>
+              </div>
             </div>
           </div>
         </form>
@@ -128,9 +136,21 @@
               <td mat-cell *matCellDef="let row">{{row.rownum}}</td>
             </ng-container>
 
-            <!-- Fecha Creación Column -->
+            <!-- RUC Column -->
+            <ng-container matColumnDef="ruc">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>RUC</th>
+              <td mat-cell *matCellDef="let row">{{ row.ruc }}</td>
+            </ng-container>
+
+            <!-- Transaccion Codigo Column -->
+            <ng-container matColumnDef="transCode">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Código Transacción</th>
+              <td mat-cell *matCellDef="let row">{{row.numeroFE}}</td>
+            </ng-container>
+
+            <!-- Fecha Emisión Column -->
             <ng-container matColumnDef="fecha">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Creación</th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Emisión</th>
               <td mat-cell *matCellDef="let row">{{row.fecha | date: 'dd-MM-yyyy'}}</td>
             </ng-container>
 
@@ -150,7 +170,7 @@
             <!-- Tipo Documento Column -->
             <ng-container matColumnDef="tipodoc">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Doc</th>
-              <td mat-cell *matCellDef="let row">{{row.tipodoc}}</td>
+              <td mat-cell *matCellDef="let row" [matTooltip]="row.tipodoc" matTooltipClass="tooltip-uppercase">{{row.abrev}}</td>
             </ng-container>
 
             <!-- Tipo Operacion Column -->
@@ -164,8 +184,8 @@
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
               <td mat-cell *matCellDef="let row">
                 <mat-chip-list>
-                  <mat-chip [style.backgroundColor]="row.idestatus == 1 ? '#28a745' : row.idestatus == 2 ? '#ffc107': '#dc3545'">
-                    {{ row.idestatus == 1 ? 'Aprobado' : row.idestatus == 2 ? 'Pendiente': 'Rechazado' }}
+                  <mat-chip [style.backgroundColor]="row.idestatus == 1 ? '#28a745' : row.idestatus == 2 ? '#dc3545': '#ffbb00'">
+                    {{ row.idestatus == 1 ? 'Aprobado' : row.idestatus == 2 ? 'Rechazado': 'Pendiente' }}
                   </mat-chip>
                 </mat-chip-list>
 

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
@@ -6,12 +6,17 @@ import { FacturacionDataService } from 'src/app/services/facturacion-data/factur
 import { IDataScheme } from '../../interfaces/factura.interface';
 import { Subscription } from 'rxjs';
 import { IDataSucursalScheme } from 'src/app/interfaces/sucursal.interface';
+import { Router } from '@angular/router';
+import { MatButtonToggleGroup } from '@angular/material/button-toggle';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+
+  @ViewChild('toggleGroupEstados') toggleGroupEstados!: MatButtonToggleGroup;
+
   /** Based on the screen size, switch from standard to one column per row */
   cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
     map(({ matches }) => {
@@ -68,17 +73,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
   is_data_estado_loaded: boolean = true;
   is_data_tipo_Doc_loaded: boolean = true;
 
+
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private facturacionDataService: FacturacionDataService
+    private facturacionDataService: FacturacionDataService,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.facturacionDataService.getSucursales();
     this.datosSucursales = this.facturacionDataService.getDatosSucursalesListener.subscribe(
       (sucursales => {
-console.log("sucursales>>>>", sucursales);
-        
+        sucursales.sucursalList.shift();
         this.sucursal_id = sucursales.sucursalList[0].cod    // Setting the code of the first sucursal
         this.sucursales = sucursales.sucursalList;
 
@@ -97,11 +103,10 @@ console.log("sucursales>>>>", sucursales);
       this.facturacionDataService.getDatosFacturasListener.subscribe(
         (facturasData: IDataScheme[]) => {
           this.facturasEstado = facturasData;
-console.log("facturasData>>>>", facturasData);
-          if (facturasData.length <= 0) { console.log('entreIF');
+          if (facturasData.length <= 0) {
 
             this.is_loading_spinner_estados = false;
-          } else {console.log('entreELSE');
+          } else {
             this.is_loading_spinner_estados = false;
             this.is_data_estado_loaded = true;
           }
@@ -144,6 +149,15 @@ console.log("facturasData>>>>", facturasData);
 
   onSelect(data: any): void {
     console.log('Item clicked', JSON.parse(JSON.stringify(data)));
+    const dashboardData = {
+      date: this.date_id,
+      sucursal: this.sucursal_id,
+      category: data.label
+    }
+    console.log('dashboardData', dashboardData);
+    // const queryParams = encodeURIComponent(JSON.stringify(dashboardData));
+
+    this.router.navigate(['app/pages/data-filter'], { queryParams: dashboardData});
   }
 
   onActivate(data: any): void {

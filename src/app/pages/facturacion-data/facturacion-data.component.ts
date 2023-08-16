@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { DatePipe } from '@angular/common';
 
@@ -14,13 +14,14 @@ import { IDataFacturaScheme } from 'src/app/interfaces/facturaData.interface';
 import { EXAMPLE_DATA } from './facturacion-data-datasource'
 import { FacturacionDataService } from '../../services/facturacion-data/facturacion-data.service';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-facturacion-data',
   templateUrl: './facturacion-data.component.html',
   styleUrls: ['./facturacion-data.component.css']
 })
 
-export class FacturacionDataComponent implements OnInit, OnDestroy {
+export class FacturacionDataComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<IDataFacturaScheme>;
@@ -47,8 +48,15 @@ export class FacturacionDataComponent implements OnInit, OnDestroy {
   feStatusList: IDataSchemeCommon[] = [];
   facturaDataList: IDataFacturaScheme[] = [];
   tempDate: string = new Date().toLocaleDateString("en-GB");
-  startDateControl: FormControl = new FormControl(this.getFirstDayOfMonth());
-  endDateControl: FormControl = new FormControl(new Date());
+  predefinedDate = this.getFirstDayOfMonth();
+  startDateControl: FormControl = new FormControl(this.predefinedDate, [
+    Validators.required,
+    this.requiredIfClearedValidator(this.predefinedDate),
+  ]);
+  endDateControl: FormControl = new FormControl(new Date(), [
+    Validators.required,
+    this.requiredIfClearedValidator(new Date()),
+  ]);
   private datosSucursales: Subscription = new Subscription();
   private formasPago$: Subscription = new Subscription();
   private natOperacion$: Subscription = new Subscription();
@@ -61,7 +69,7 @@ export class FacturacionDataComponent implements OnInit, OnDestroy {
   isSucursalLoaded: boolean = false;
   isSpinnerLoading: boolean = true;
   // private isDataTablaLoadedSub$: Subscription = new Subscription();
-
+  queryParams = this.route.snapshot.queryParams;
   filteringData = {
     i_fechaini: this.startDateControl.value,
     i_fechafin: this.endDateControl.value,
@@ -71,6 +79,7 @@ export class FacturacionDataComponent implements OnInit, OnDestroy {
     i_tipo_op: null,
     i_tipo_doc: null,
     i_forma_pago: null,
+    ruc: '',
     i_pagina: this.currentPage,
     i_registropagina: this.facturasPerPage
   }
@@ -87,9 +96,10 @@ export class FacturacionDataComponent implements OnInit, OnDestroy {
 
 
   /* Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['rownum', 'fecha', 'suc', 'fpago', 'tipodoc', 'nop', 'estatus', 'actions'];
+  displayedColumns = ['rownum','ruc','transCode','fecha', 'suc', 'fpago', 'tipodoc', 'nop', 'estatus', 'actions'];
 
-  constructor(private facturacionDataService: FacturacionDataService, private datePipe: DatePipe) {}
+  constructor(private facturacionDataService: FacturacionDataService, private datePipe: DatePipe, private route: ActivatedRoute) {}
+
 
   ngOnInit(): void {
 
@@ -108,6 +118,7 @@ export class FacturacionDataComponent implements OnInit, OnDestroy {
     // }
     // console.log(EXAMPLE_DATA);
 
+
     this.filteringForm = new FormGroup({
       startDateControl: this.startDateControl,
       endDateControl: this.endDateControl,
@@ -116,6 +127,7 @@ export class FacturacionDataComponent implements OnInit, OnDestroy {
       tipoOperControl: new FormControl(),
       tipoEstadoControl: new FormControl(),
       tipoSucursalControl: new FormControl(),
+      ruc: new FormControl(),
     })
 
 
@@ -123,7 +135,7 @@ export class FacturacionDataComponent implements OnInit, OnDestroy {
 
     this.facturacionDataService.getSucursales();
     this.datosSucursales = this.facturacionDataService.getDatosSucursalesListener.subscribe(
-      (sucursales => { console.log('sucursales>>>>', sucursales);
+      (sucursales => {
 
         this.sucursales = sucursales.sucursalList;
       })
@@ -149,17 +161,25 @@ export class FacturacionDataComponent implements OnInit, OnDestroy {
       this.feStatusList = feStatus;
     })
 
-  this.getFacturaData(this.filteringData);
-  this.facturaData$ = this.facturacionDataService.getFacturasUpdatedListener()
-    .subscribe(facturaData => {
-      console.log('facturaData>>>>', facturaData);
-      this.facturaDataList = facturaData.facturas;
-      this.facturasTotalAmount = facturaData.facturasTotal;
-      this.isDataTablaLoaded = facturaData.success;
-      this.resultMessage = facturaData.message;
-      this.isSpinnerLoading = false;
-      this.setTableData();
-    });
+    // const queryParams = this.route.snapshot.queryParams;
+    console.log('Object.keys>>>>>>>>', Object.keys(this.queryParams).length);
+    if(Object.keys(this.queryParams).length == 0) {
+
+      this.getFacturaData(this.filteringData);
+
+      this.facturaData$ = this.facturacionDataService.getFacturasUpdatedListener()
+      .subscribe(facturaData => {
+
+        this.facturaDataList = facturaData.facturas;
+        this.facturasTotalAmount = facturaData.facturasTotal;
+        this.isDataTablaLoaded = facturaData.success;
+        this.resultMessage = facturaData.message;
+        this.isSpinnerLoading = false;
+        this.setTableData();
+      });
+    }
+
+
     // this.isDataTablaLoadedSub$ = this.facturacionDataService.getIsDataTablaLoadedListener()
     //   .subscribe(isDataTablaLoaded => {
     //     console.log('isDataTablaLoaded>>>>', isDataTablaLoaded);
@@ -172,6 +192,14 @@ export class FacturacionDataComponent implements OnInit, OnDestroy {
   //     this.facturasTotalAmount = factura.rows
   //     this.setTableData();
   //   })
+  }
+
+  ngAfterViewInit(): void {
+    // const queryParams = this.route.snapshot.queryParams;
+
+    if(Object.keys(this.queryParams).length != 0) {
+      this.setFilter(this.queryParams);
+    }
   }
 
   ngOnDestroy() {
@@ -190,6 +218,9 @@ export class FacturacionDataComponent implements OnInit, OnDestroy {
 
   resetForm() {
     this.filteringForm.reset();
+
+    this.filteringForm.get('startDateControl')?.setValue(this.getFirstDayOfMonth());
+    this.filteringForm.get('endDateControl')?.setValue(new Date());
   }
 
   getRandomInt(max: number) {
@@ -231,6 +262,9 @@ export class FacturacionDataComponent implements OnInit, OnDestroy {
   }
 
   filterFacturaData() {
+    if (!this.filteringForm.valid) {
+      return;
+    }
     this.isSpinnerLoading = true;
     this.updateDataFactura();
     this.getFacturaData(this.filteringData);
@@ -253,20 +287,25 @@ export class FacturacionDataComponent implements OnInit, OnDestroy {
       i_fechafin: this.filteringForm.value.endDateControl,
       i_filtrosuc: this.filteringForm.value.tipoSucursalControl,
       i_filtrocia: 1,                                                 //this.filteringForm.value.tipo  -----> Filtro de empresa
+      ruc: this.filteringForm.value.ruc,
       i_estatus: this.filteringForm.value.tipoEstadoControl,
       i_tipo_op: this.filteringForm.value.tipoOperControl,
       i_tipo_doc: this.filteringForm.value.tipoDocControl,
       i_forma_pago: this.filteringForm.value.formaPagoControl,
-      i_pagina: this.currentPage,
+      i_pagina: 1,
       i_registropagina: this.facturasPerPage
     }
-    console.log('this.filteringData>>>>>', this.filteringForm);
-
+    console.log('this.filteringData>>>>>', this.filteringData);
   }
 
   getFirstDayOfMonth(): Date {
     const currentDate = new Date();
     return new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+  }
+
+  getFirstDayOfYear(): Date {
+    const currentDate = new Date();
+    return new Date(currentDate.getFullYear(), 0, 1);
   }
 
   downloadCaffePDF(facturaNumber: number) {
@@ -281,6 +320,65 @@ export class FacturacionDataComponent implements OnInit, OnDestroy {
     this.facturacionDataService.downloadCaffePDF(url, name);
   }
 
+  requiredIfClearedValidator(predefinedDate: Date): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+
+      // Check if the date is manually cleared (null) but was originally the predefined date
+      if (value === null && predefinedDate && control.dirty) {
+        return { required: true };
+      }
+
+      return null;
+    };
+  }
+
+  setFilter(data: any): void {
+console.log("data>>>>", data);
+  switch (data.category) {
+    case 'Aprobado':
+      this.filteringForm.controls['tipoEstadoControl'].setValue('1');
+        break;
+    case 'Pendiente':
+      this.filteringForm.controls['tipoEstadoControl'].setValue('3');
+        break;
+    case 'Rechazado':
+      this.filteringForm.controls['tipoEstadoControl'].setValue('2');
+        break;
+    case 'Facturas':
+      this.filteringForm.controls['tipoDocControl'].setValue(['01', '02', '03', '08', '10']);
+        break;
+    case 'Credito':
+      this.filteringForm.controls['tipoDocControl'].setValue(['04', '06']);
+        break;
+    case 'Debito':
+      this.filteringForm.controls['tipoDocControl'].setValue(['05', '07']);
+        break;
+  }
+
+    if (data.date == 3) {
+      this.filteringForm.get('startDateControl')?.setValue(this.getFirstDayOfYear());
+    }
+    else if (data.date == 2) {
+      this.filteringForm.get('startDateControl')?.setValue(this.getFirstDayOfMonth());
+    }
+    else {
+      this.filteringForm.get('startDateControl')?.setValue(new Date());
+    }
+    this.filteringForm.controls['tipoSucursalControl'].setValue(data.sucursal);
+
+    this.updateDataFactura();
+    this.getFacturaData(this.filteringData);
+    this.facturaData$ = this.facturacionDataService.getFacturasUpdatedListener()
+      .subscribe(facturaData => {
+        this.facturaDataList = facturaData.facturas;
+        this.facturasTotalAmount = facturaData.facturasTotal;
+        this.isDataTablaLoaded = facturaData.success;
+        this.resultMessage = facturaData.message;
+        this.isSpinnerLoading = false;
+        this.setTableData();
+      });
+  }
 }
 
 
