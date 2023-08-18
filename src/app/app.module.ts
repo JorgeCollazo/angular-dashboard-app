@@ -27,11 +27,11 @@ import { MobileModule } from './pages/mobile/mobile.module';
 import { ReportesModule } from './pages/reportes/reportes.module';
 import { PwaService } from './services/pwa/pwa.service';
 
-import { MesaConteoModule } from './pages/mesa-conteo/mesa-conteo.module';
+// import { MesaConteoModule } from './pages/mesa-conteo/mesa-conteo.module';
 import { WebcamModule } from 'ngx-webcam';
 import { Router } from '@angular/router';
 
-import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+// import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -69,9 +69,9 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     }),
     MobileModule,
     ReportesModule,
-    MesaConteoModule,
+    // MesaConteoModule,
     WebcamModule,
-    SweetAlert2Module.forRoot(),
+    // SweetAlert2Module.forRoot(),
     MatButtonModule,
     MatIconModule,
     MatGridListModule,

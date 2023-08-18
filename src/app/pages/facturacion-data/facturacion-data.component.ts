@@ -25,6 +25,7 @@ export class FacturacionDataComponent implements OnInit, AfterViewInit, OnDestro
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<IDataFacturaScheme>;
+  @ViewChild('table2') table2!: MatTable<IDataFacturaScheme>;
 
   dataSource:  MatTableDataSource<IDataFacturaScheme> = new MatTableDataSource<IDataFacturaScheme>();
 
@@ -37,7 +38,7 @@ export class FacturacionDataComponent implements OnInit, AfterViewInit, OnDestro
   tipo_doc: string = "";
   tipo_op: string = "";
   status: string = "";
-  facturasPerPage: number = 10;
+  facturasPerPage: number = 25;
   currentPage: number = 1;
   pageSizeOptions = [25,50,100];
   facturasTotalAmount: number = 0;
@@ -97,6 +98,8 @@ export class FacturacionDataComponent implements OnInit, AfterViewInit, OnDestro
 
   /* Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['rownum','ruc','transCode','fecha', 'suc', 'fpago', 'tipodoc', 'nop', 'estatus', 'actions'];
+  displayedColumnsAuditoria = ['rownum','ruc','transCode','receptor','tipodoc','subtotal','montodesc','itbmTotal','total','exento','subTotalIMP1_5%','ISC_5%', 'actions'];
+  displayedColumnsAuditoria2 = ['rownum','ruc','transCode','subtotal','montodesc','exento','gravado','itbms_percent','itbms','total', 'actions'];
 
   constructor(private facturacionDataService: FacturacionDataService, private datePipe: DatePipe, private route: ActivatedRoute) {}
 
@@ -162,7 +165,7 @@ export class FacturacionDataComponent implements OnInit, AfterViewInit, OnDestro
     })
 
     // const queryParams = this.route.snapshot.queryParams;
-    console.log('Object.keys>>>>>>>>', Object.keys(this.queryParams).length);
+    // console.log('Object.keys>>>>>>>>', Object.keys(this.queryParams).length);
     if(Object.keys(this.queryParams).length == 0) {
 
       this.getFacturaData(this.filteringData);
@@ -254,6 +257,7 @@ export class FacturacionDataComponent implements OnInit, AfterViewInit, OnDestro
     console.log('this.isDataTablaLoaded>>>', this.isDataTablaLoaded);
     this.dataSource = new MatTableDataSource<IDataFacturaScheme>(this.facturaDataList);
     this.table.dataSource = this.dataSource;
+    this.table2.dataSource = this.dataSource;
     this.dataSource.sort = this.sort;
     if(!this.tableDataSet) {
       this.dataSource.paginator = this.paginator;

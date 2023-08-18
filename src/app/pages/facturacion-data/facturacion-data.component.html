@@ -1,3 +1,20 @@
+ <!--
+   1)- Add an ID here
+ -->
+ <!-- <div id="print-section">
+  <ul>
+    <li>ONE</li>
+    <li>TWO</li>
+    <li>THREE</li>
+    <li>FOUR</li>
+  </ul>
+</div> -->
+
+ <!--
+   2)- Add the directive name in your button (ngxPrint),
+   3)- Affect your ID to printSectionId
+ -->
+<!-- <button printSectionId="print-section" ngxPrint> print </button> -->
 <div class="container">
   <app-header-page [title]="'Datos Transacciones'"></app-header-page>
   <div class="row">
@@ -107,7 +124,7 @@
     <div class="col-12 col-sm-4 col-lg-3 col-xl-2 d-flex">
       <button mat-raised-button [matMenuTriggerFor]="menu" [disabled]="!isDataTablaLoaded" color="primary" id="export-button-ID">Exportar <mat-icon>picture_as_pdf</mat-icon></button>
       <mat-menu #menu="matMenu" disa>
-        <button mat-menu-item>PDF</button>
+        <button mat-menu-item printSectionId="print-section" ngxPrint>PDF</button>
         <button mat-menu-item>CSV</button>
         <button mat-menu-item>XLSX</button>
       </mat-menu>
@@ -122,106 +139,320 @@
   </div>
   <div class="row">
     <div class="col-12">
-      <div class="mat-elevation-z8 table-responsive">
-        <div *ngIf="!isDataTablaLoaded && !isSpinnerLoading" class="d-flex align-items-center flex-column">
-          <mat-icon class="custom-mat-icon" matSuffix>report</mat-icon>
-          <h2>{{ resultMessage }}</h2>
-        </div>
-        <mat-spinner [diameter]="130" *ngIf="isSpinnerLoading" style="margin: auto;"></mat-spinner>
-        <div [style.display]="(isDataTablaLoaded && !isSpinnerLoading)? 'block' : 'none'">
-          <table mat-table class="full-width-table table-responsive" matSort aria-label="Elements">
-            <!-- Nro. Column -->
-            <ng-container matColumnDef="rownum">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Nro.</th>
-              <td mat-cell *matCellDef="let row">{{row.rownum}}</td>
-            </ng-container>
+      <mat-tab-group>
+        <mat-tab label="Transacciones">
+          <div class="mat-elevation-z8 table-responsive text-center" id="print-section">
+            <div *ngIf="!isDataTablaLoaded && !isSpinnerLoading" class="d-flex align-items-center flex-column">
+              <mat-icon class="custom-mat-icon" matSuffix>report</mat-icon>
+              <h2>{{ resultMessage }}</h2>
+            </div>
+            <mat-spinner [diameter]="130" *ngIf="isSpinnerLoading" style="margin: auto;"></mat-spinner>
+            <div [style.display]="(isDataTablaLoaded && !isSpinnerLoading)? 'block' : 'none'">
+              <table mat-table class="full-width-table table-responsive" matSort aria-label="Elements">
+                <!-- Nro. Column -->
+                <ng-container matColumnDef="rownum">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Nro.</th>
+                  <td mat-cell *matCellDef="let row">{{row.rownum}}</td>
+                </ng-container>
 
-            <!-- RUC Column -->
-            <ng-container matColumnDef="ruc">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>RUC</th>
-              <td mat-cell *matCellDef="let row">{{ row.ruc }}</td>
-            </ng-container>
+                <!-- RUC Column -->
+                <ng-container matColumnDef="ruc">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>RUC</th>
+                  <td mat-cell *matCellDef="let row">{{ row.ruc }}</td>
+                </ng-container>
 
-            <!-- Transaccion Codigo Column -->
-            <ng-container matColumnDef="transCode">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Código Transacción</th>
-              <td mat-cell *matCellDef="let row">{{row.numeroFE}}</td>
-            </ng-container>
+                <!-- Transaccion Codigo Column -->
+                <ng-container matColumnDef="transCode">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Código Transacción</th>
+                  <td mat-cell *matCellDef="let row">{{row.numeroFE}}</td>
+                </ng-container>
 
-            <!-- Fecha Emisión Column -->
-            <ng-container matColumnDef="fecha">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Emisión</th>
-              <td mat-cell *matCellDef="let row">{{row.fecha | date: 'dd-MM-yyyy'}}</td>
-            </ng-container>
+                <!-- Fecha Emisión Column -->
+                <ng-container matColumnDef="fecha">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Emisión</th>
+                  <td mat-cell *matCellDef="let row">{{row.fecha | date: 'dd-MM-yyyy'}}</td>
+                </ng-container>
 
-            <!-- Forma Pago Column -->
-            <ng-container matColumnDef="fpago">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>T. Pago</th>
-              <td mat-cell *matCellDef="let row">{{row.fpago}}</td>
-            </ng-container>
+                <!-- Forma Pago Column -->
+                <ng-container matColumnDef="fpago">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>T. Pago</th>
+                  <td mat-cell *matCellDef="let row">{{row.fpago}}</td>
+                </ng-container>
 
 
-            <!-- Sucursal Column -->
-            <ng-container matColumnDef="suc">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Sucursal</th>
-              <td mat-cell *matCellDef="let row">{{row.suc}}</td>
-            </ng-container>
+                <!-- Sucursal Column -->
+                <ng-container matColumnDef="suc">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Sucursal</th>
+                  <td mat-cell *matCellDef="let row">{{row.suc}}</td>
+                </ng-container>
 
-            <!-- Tipo Documento Column -->
-            <ng-container matColumnDef="tipodoc">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Doc</th>
-              <td mat-cell *matCellDef="let row" [matTooltip]="row.tipodoc" matTooltipClass="tooltip-uppercase">{{row.abrev}}</td>
-            </ng-container>
+                <!-- Tipo Documento Column -->
+                <ng-container matColumnDef="tipodoc">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Doc</th>
+                  <td mat-cell *matCellDef="let row" [matTooltip]="row.tipodoc" matTooltipClass="tooltip-uppercase">{{row.abrev}}</td>
+                </ng-container>
 
-            <!-- Tipo Operacion Column -->
-            <ng-container matColumnDef="nop">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Op</th>
-              <td mat-cell *matCellDef="let row">{{row.nop}}</td>
-            </ng-container>
+                <!-- Tipo Operacion Column -->
+                <ng-container matColumnDef="nop">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Op</th>
+                  <td mat-cell *matCellDef="let row">{{row.nop}}</td>
+                </ng-container>
 
-            <!-- Status Column -->
-            <ng-container matColumnDef="estatus">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
-              <td mat-cell *matCellDef="let row">
-                <mat-chip-list>
-                  <mat-chip [style.backgroundColor]="row.idestatus == 1 ? '#28a745' : row.idestatus == 2 ? '#dc3545': '#ffbb00'">
-                    {{ row.idestatus == 1 ? 'Aprobado' : row.idestatus == 2 ? 'Rechazado': 'Pendiente' }}
-                  </mat-chip>
-                </mat-chip-list>
+                <!-- Status Column -->
+                <ng-container matColumnDef="estatus">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+                  <td mat-cell *matCellDef="let row">
+                    <mat-chip-list>
+                      <mat-chip [style.backgroundColor]="row.idestatus == 1 ? '#28a745' : row.idestatus == 2 ? '#dc3545': '#ffbb00'">
+                        {{ row.idestatus == 1 ? 'Aprobado' : row.idestatus == 2 ? 'Rechazado': 'Pendiente' }}
+                      </mat-chip>
+                    </mat-chip-list>
 
-                <!-- {{row.status}} -->
-              </td>
-            </ng-container>
+                    <!-- {{row.status}} -->
+                  </td>
+                </ng-container>
 
-            <!-- Actions Column -->
-            <ng-container matColumnDef="actions">
-              <th mat-header-cell *matHeaderCellDef>Acciones</th>
-              <td mat-cell *matCellDef="let row" class="actions-column">
-                <button mat-icon-button matTooltip="Envía Correo CAFE">
-                  <mat-icon> mail </mat-icon>
-                </button>
-                <button mat-icon-button matTooltip="Descargar CAFE/CUFE" (click)="downloadCaffePDF(row.numeroFE)">
-                  <mat-icon>cloud_download</mat-icon>
-                </button>
-                <button mat-icon-button matTooltip="Subir Factura DGI">
-                  <mat-icon>upload</mat-icon>
-                </button>
-              </td>
-            </ng-container>
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          </table>
-          <mat-paginator #paginator
-              [length]="facturasTotalAmount"
-              [pageIndex]="0"
-              [pageSize]="facturasPerPage"
-              [pageSizeOptions]="pageSizeOptions"
-              (page)="onChangePage($event)"
-              class="mat-elevation-z8"
-              aria-label="Select page">
-          </mat-paginator>
-        </div>
-      </div>
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                  <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                  <td mat-cell *matCellDef="let row" class="actions-column">
+                    <!-- <button mat-icon-button matTooltip="Envía Correo CAFE">
+                      <mat-icon> mail </mat-icon>
+                    </button> -->
+                    <button mat-icon-button matTooltip="Descargar CAFE/CUFE" (click)="downloadCaffePDF(row.numeroFE)">
+                      <mat-icon>cloud_download</mat-icon>
+                    </button>
+                    <!-- <button mat-icon-button matTooltip="Subir Factura DGI">
+                      <mat-icon>upload</mat-icon>
+                    </button> -->
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+              <mat-paginator #paginator
+                  [length]="facturasTotalAmount"
+                  [pageIndex]="0"
+                  [pageSize]="facturasPerPage"
+                  [pageSizeOptions]="pageSizeOptions"
+                  (page)="onChangePage($event)"
+                  class="mat-elevation-z8"
+                  aria-label="Select page">
+              </mat-paginator>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Transacciones 2">
+          <div class="mat-elevation-z8 table-responsive text-center" id="print-section">
+            <div *ngIf="!isDataTablaLoaded && !isSpinnerLoading" class="d-flex align-items-center flex-column">
+              <mat-icon class="custom-mat-icon" matSuffix>report</mat-icon>
+              <h2>{{ resultMessage }}</h2>
+            </div>
+            <mat-spinner [diameter]="130" *ngIf="isSpinnerLoading" style="margin: auto;"></mat-spinner>
+            <div [style.display]="(isDataTablaLoaded && !isSpinnerLoading)? 'block' : 'none'">
+              <table mat-table #table2 class="full-width-table table-responsive" matSort aria-label="Elements">
+                <!-- Nro. Column -->
+                <ng-container matColumnDef="rownum">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Nro.</th>
+                  <td mat-cell *matCellDef="let row">{{row.rownum}}</td>
+                </ng-container>
+
+                <!-- RUC Column -->
+                <ng-container matColumnDef="ruc">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>RUC</th>
+                  <td mat-cell *matCellDef="let row">{{ row.ruc }}</td>
+                </ng-container>
+
+                <!-- Transaccion Codigo Column -->
+                <ng-container matColumnDef="transCode">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Código Transacción</th>
+                  <td mat-cell *matCellDef="let row">{{row.numeroFE}}</td>
+                </ng-container>
+
+                <!-- Receptor Column -->
+                <ng-container matColumnDef="receptor">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Receptor</th>
+                  <td mat-cell *matCellDef="let row">{{row.nombRec}}</td>
+                </ng-container>
+
+                <!-- Tipo Documento Column -->
+                <ng-container matColumnDef="tipodoc">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Doc</th>
+                  <td mat-cell *matCellDef="let row" [matTooltip]="row.tipodoc" matTooltipClass="tooltip-uppercase">{{row.abrev}}</td>
+                </ng-container>
+
+                <!-- Subtotal Column -->
+                <ng-container matColumnDef="subtotal">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>SubTotal</th>
+                  <td mat-cell *matCellDef="let row">{{row.subtotal}}</td>
+                </ng-container>
+
+                <!-- Monto Desc Column -->
+                <ng-container matColumnDef="montodesc">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Monto Desc.</th>
+                  <td mat-cell *matCellDef="let row">{{row.montodesc}}</td>
+                </ng-container>
+
+                <!-- ITBM TOTAL Column -->
+                <ng-container matColumnDef="itbmTotal">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>ITBM Total</th>
+                  <td mat-cell *matCellDef="let row">{{row.itbmTotal}}</td>
+                </ng-container>
+
+                <!-- TOTAL Column -->
+                <ng-container matColumnDef="total">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Total</th>
+                  <td mat-cell *matCellDef="let row">{{row.total}}</td>
+                </ng-container>
+
+                <!-- Exento Column -->
+                <ng-container matColumnDef="exento">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Exento</th>
+                  <td mat-cell *matCellDef="let row">{{row.exento}}</td>
+                </ng-container>
+
+                <!-- SubTotalIMP1_5% Column -->
+                <ng-container matColumnDef="subTotalIMP1_5%">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>SubTotalIMP1(5%)</th>
+                  <td mat-cell *matCellDef="let row">{{row.subTotalIMP1_5}}</td>
+                </ng-container>
+
+                <!-- ISC_5% Column -->
+                <ng-container matColumnDef="ISC_5%">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>ISC(5%)</th>
+                  <td mat-cell *matCellDef="let row">{{row.ISC_5}}</td>
+                </ng-container>
+
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                  <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                  <td mat-cell *matCellDef="let row" class="actions-column">
+                    <!-- <button mat-icon-button matTooltip="Envía Correo CAFE">
+                      <mat-icon> mail </mat-icon>
+                    </button> -->
+                    <button mat-icon-button matTooltip="Descargar CAFE/CUFE" (click)="downloadCaffePDF(row.numeroFE)">
+                      <mat-icon>cloud_download</mat-icon>
+                    </button>
+                    <!-- <button mat-icon-button matTooltip="Subir Factura DGI">
+                      <mat-icon>upload</mat-icon>
+                    </button> -->
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsAuditoria"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsAuditoria;"></tr>
+              </table>
+              <mat-paginator #paginator
+                  [length]="facturasTotalAmount"
+                  [pageIndex]="0"
+                  [pageSize]="facturasPerPage"
+                  [pageSizeOptions]="pageSizeOptions"
+                  (page)="onChangePage($event)"
+                  class="mat-elevation-z8"
+                  aria-label="Select page">
+              </mat-paginator>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Transacciones 3">
+          <div class="mat-elevation-z8 table-responsive text-center" id="print-section">
+            <div *ngIf="!isDataTablaLoaded && !isSpinnerLoading" class="d-flex align-items-center flex-column">
+              <mat-icon class="custom-mat-icon" matSuffix>report</mat-icon>
+              <h2>{{ resultMessage }}</h2>
+            </div>
+            <mat-spinner [diameter]="130" *ngIf="isSpinnerLoading" style="margin: auto;"></mat-spinner>
+            <div [style.display]="(isDataTablaLoaded && !isSpinnerLoading)? 'block' : 'none'">
+              <table mat-table #table3 class="full-width-table table-responsive" matSort aria-label="Elements">
+                <!-- Nro. Column -->
+                <ng-container matColumnDef="rownum">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Nro.</th>
+                  <td mat-cell *matCellDef="let row">{{row.rownum}}</td>
+                </ng-container>
+
+                <!-- RUC Column -->
+                <ng-container matColumnDef="ruc">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>RUC</th>
+                  <td mat-cell *matCellDef="let row">{{ row.ruc }}</td>
+                </ng-container>
+
+                <!-- Transaccion Codigo Column -->
+                <ng-container matColumnDef="transCode">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Código Transacción</th>
+                  <td mat-cell *matCellDef="let row">{{row.numeroFE}}</td>
+                </ng-container>
+
+                <!-- Monto Desc. Column -->
+                <ng-container matColumnDef="montodesc">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Monto Descuento</th>
+                  <td mat-cell *matCellDef="let row">{{row.montodesc}}</td>
+                </ng-container>
+
+                <!-- Subtotal Column -->
+                <ng-container matColumnDef="subtotal">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Subtotal</th>
+                  <td mat-cell *matCellDef="let row">{{row.subtotal}}</td>
+                </ng-container>
+
+                <!-- Exento Column -->
+                <ng-container matColumnDef="exento">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Exento</th>
+                  <td mat-cell *matCellDef="let row">{{row.exento}}</td>
+                </ng-container>
+
+                <!-- Gravado Column -->
+                <ng-container matColumnDef="gravado">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Gravado</th>
+                  <td mat-cell *matCellDef="let row">{{row.gravado}}</td>
+                </ng-container>
+
+                <!-- ITBMS Perc. Column -->
+                <ng-container matColumnDef="itbms_percent">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Porciento ITBMS</th>
+                  <td mat-cell *matCellDef="let row">{{row.itbms_percent}}</td>
+                </ng-container>
+
+                <!-- ITBMS Column -->
+                <ng-container matColumnDef="itbms">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>ITBMS</th>
+                  <td mat-cell *matCellDef="let row">{{row.itbms}}</td>
+                </ng-container>
+
+                <!-- Total Column -->
+                <ng-container matColumnDef="total">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Total</th>
+                  <td mat-cell *matCellDef="let row">{{row.total}}</td>
+                </ng-container>
+
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                  <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                  <td mat-cell *matCellDef="let row" class="actions-column">
+                    <!-- <button mat-icon-button matTooltip="Envía Correo CAFE">
+                      <mat-icon> mail </mat-icon>
+                    </button> -->
+                    <button mat-icon-button matTooltip="Descargar CAFE/CUFE" (click)="downloadCaffePDF(row.numeroFE)">
+                      <mat-icon>cloud_download</mat-icon>
+                    </button>
+                    <!-- <button mat-icon-button matTooltip="Subir Factura DGI">
+                      <mat-icon>upload</mat-icon>
+                    </button> -->
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsAuditoria2"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsAuditoria2;"></tr>
+              </table>
+              <mat-paginator #paginator
+                  [length]="facturasTotalAmount"
+                  [pageIndex]="0"
+                  [pageSize]="facturasPerPage"
+                  [pageSizeOptions]="pageSizeOptions"
+                  (page)="onChangePage($event)"
+                  class="mat-elevation-z8"
+                  aria-label="Select page">
+              </mat-paginator>
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
     </div>
   </div>
 </div>

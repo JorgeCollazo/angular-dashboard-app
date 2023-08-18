@@ -42,8 +42,8 @@ aside {
 }
 
 #sidebar {
-    min-width: 205px;
-    max-width: 205px;
+    min-width: 250px;
+    max-width: 250px;
     transition: all 0.3s;
     /* background-color: white;
     background: #fff !important; */
@@ -98,17 +98,25 @@ a[data-toggle="collapse"] {
     }
 }
 
+@media (min-width: 768px) {
+  #sidebar {
+    min-width: 205px;
+    max-width: 205px;
+  }
+  .contenido {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+  }
+}
+
 .navbar-light .navbar-toggler{
      border-color: rgba(0,0,0,0) !important;
 }
 
 .contenido{
-    padding-right: 0 !important;
-    padding-left: 0 !important;
-
-    padding-top: 4.5rem !important;
-    /* padding-right: 1.5rem !important; */
-    /* padding-left: 1.5rem !important; */
+    padding-top: 6.5rem !important;
+    padding-right: 1.5rem !important;
+    padding-left: 1.5rem !important;
 }
 
 .nav-link.active {

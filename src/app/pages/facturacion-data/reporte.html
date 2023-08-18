@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="facturacion-data.component.css">
+</head>
+<body>
+  <header>
+    <h2>Reporte de Transacciones</h2>
+    <h3>Sucursal: Advisers Suc. </h3>
+  </header>
+  <div class="filter-box">
+    <div class="row-filter">
+      <div><span>Fecha inicio:</span> 20/04/1989</div>
+      <div><span>Tipo de Pago:</span> Credito</div>
+      <div><span>Tipo de Operacion:</span> Venta</div>
+    </div>
+    <div class="row-filter">
+      <div><span>Fecha fin:</span> 20/04/1989</div>
+      <div><span>Estado:</span> Aprobado</div>
+      <div><span>RUC:</span> 000000012345</div>
+      <div><span>Tipo de Documento:</span>
+      <ul>
+        <li>Factura de Operacion Externa</li>
+        <li>Factura de Operacion Interna</li>
+        <li>Factura de Debito</li>
+        <li>Factura de Credito</li>
+      </ul>
+    </div>
+   </div>
+  </div>
+  <table class="table table-striped-columns styled-table">
+    <thead>
+      <tr>
+        <th scope="col">Nro.</th>
+        <th scope="col">RUC</th>
+        <th scope="col">Código Transacción</th>
+        <th scope="col">Fecha Emisión</th>
+        <th scope="col">Sucursal</th>
+        <th scope="col">Tipo de Pago</th>
+        <th scope="col">Tipo de Documento</th>
+        <th scope="col">Tipo de Operación</th>
+        <th scope="col">Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Mark</td>
+        <td>Otto</td>
+        <td>@mdo</td>
+      </tr>
+      <tr class="active-row">
+        <th scope="row">2</th>
+        <td>Jacob</td>
+        <td>Thornton</td>
+        <td>@fat</td>
+      </tr>
+      <tr>
+        <th scope="row">3</th>
+        <td colspan="2">Larry the Bird</td>
+        <td>@twitter</td>
+      </tr>
+  </tbody>
+</table>
+</body>
+</html>

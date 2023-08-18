@@ -4,7 +4,7 @@ import { AuthComponent } from './public/auth/auth.component';
 import { CambioContrasenaComponent } from './public/cambio-contrasena/cambio-contrasena.component';
 import { Page403Component } from './public/page403/page403.component';
 import { Page404Component } from './public/page404/page404.component';
-import { FotoMesaComponent } from './pages/mesa-conteo/foto-mesa/foto-mesa.component';
+// import { FotoMesaComponent } from './pages/mesa-conteo/foto-mesa/foto-mesa.component';
 
 const routes: Routes = [
   {
