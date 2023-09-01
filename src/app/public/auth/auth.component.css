@@ -129,3 +129,21 @@ mat-card {
   }
 
 }
+
+
+mat-card {
+  background-color: #305e62;
+}
+
+mat-card-title {
+  color: #dd611d;
+}
+
+fa-icon {
+  color: #dd611d;
+}
+
+
+
+
+

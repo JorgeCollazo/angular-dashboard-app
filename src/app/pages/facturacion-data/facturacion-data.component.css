@@ -119,3 +119,7 @@ span {
 	width: 65rem;
 	margin: auto;
 }
+
+.container {
+  max-width: 1900px;
+}

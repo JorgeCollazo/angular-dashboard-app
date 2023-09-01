@@ -1,5 +1,18 @@
-import { Component, ViewChild, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import {
+  Component,
+  ViewChild,
+  OnInit,
+  OnDestroy,
+  AfterViewInit,
+} from '@angular/core';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { DatePipe } from '@angular/common';
 
@@ -11,36 +24,38 @@ import { IDataSucursalScheme } from 'src/app/interfaces/sucursal.interface';
 import { IDataSchemeCommon } from 'src/app/interfaces/common.interface';
 import { IDataFacturaScheme } from 'src/app/interfaces/facturaData.interface';
 // import { FacturacionDataItem } from './facturacion-data-datasource';
-import { EXAMPLE_DATA } from './facturacion-data-datasource'
+import { EXAMPLE_DATA } from './facturacion-data-datasource';
 import { FacturacionDataService } from '../../services/facturacion-data/facturacion-data.service';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-facturacion-data',
   templateUrl: './facturacion-data.component.html',
-  styleUrls: ['./facturacion-data.component.css']
+  styleUrls: ['./facturacion-data.component.css'],
 })
-
-export class FacturacionDataComponent implements OnInit, AfterViewInit, OnDestroy {
+export class FacturacionDataComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<IDataFacturaScheme>;
   @ViewChild('table2') table2!: MatTable<IDataFacturaScheme>;
 
-  dataSource:  MatTableDataSource<IDataFacturaScheme> = new MatTableDataSource<IDataFacturaScheme>();
+  dataSource: MatTableDataSource<IDataFacturaScheme> =
+    new MatTableDataSource<IDataFacturaScheme>();
 
   filteringForm!: FormGroup;
   fecha_inicio: Date = new Date();
   fecha_fin: Date = new Date();
   sucursal_id: string = '';
-  evento: string = "";
-  t_pago: string = "";
-  tipo_doc: string = "";
-  tipo_op: string = "";
-  status: string = "";
+  evento: string = '';
+  t_pago: string = '';
+  tipo_doc: string = '';
+  tipo_op: string = '';
+  status: string = '';
   facturasPerPage: number = 25;
   currentPage: number = 1;
-  pageSizeOptions = [25,50,100];
+  pageSizeOptions = [25, 50, 100];
   facturasTotalAmount: number = 0;
   sucursales: IDataSucursalScheme[] = [];
   formasPago: IDataSchemeCommon[] = [];
@@ -48,7 +63,7 @@ export class FacturacionDataComponent implements OnInit, AfterViewInit, OnDestro
   tipoDocs: IDataSchemeCommon[] = [];
   feStatusList: IDataSchemeCommon[] = [];
   facturaDataList: IDataFacturaScheme[] = [];
-  tempDate: string = new Date().toLocaleDateString("en-GB");
+  tempDate: string = new Date().toLocaleDateString('en-GB');
   predefinedDate = this.getFirstDayOfMonth();
   startDateControl: FormControl = new FormControl(this.predefinedDate, [
     Validators.required,
@@ -82,8 +97,8 @@ export class FacturacionDataComponent implements OnInit, AfterViewInit, OnDestro
     i_forma_pago: null,
     ruc: '',
     i_pagina: this.currentPage,
-    i_registropagina: this.facturasPerPage
-  }
+    i_registropagina: this.facturasPerPage,
+  };
 
   // EXAMPLE_DATA: FacturacionDataItem[] = [
   //   {nro: 1, fecha_creacion: new Date(), fecha_inicio: new Date(), t_pago: 51, t_doc: 15, t_op: 71, status: 1, evento: 1, sucursal: 'Xtra'},
@@ -95,32 +110,74 @@ export class FacturacionDataComponent implements OnInit, AfterViewInit, OnDestro
   //   {nro: 7, fecha_creacion: new Date(), fecha_inicio: new Date(), t_pago: 57, t_doc: 75, t_op: 77, status: 7, evento: 7, sucursal: 'Super 99'},
   // ]
 
-
   /* Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['rownum','ruc','transCode','fecha', 'suc', 'fpago', 'tipodoc', 'nop', 'estatus', 'actions'];
-  displayedColumnsAuditoria = ['rownum','ruc','transCode','receptor','tipodoc','subtotal','montodesc','itbmTotal','total','exento','subTotalIMP1_5%','ISC_5%', 'actions'];
-  displayedColumnsAuditoria2 = ['rownum','ruc','transCode','subtotal','montodesc','exento','gravado','itbms_percent','itbms','total', 'actions'];
+  displayedColumns = [
+    'rownum',
+    'ruc',
+    'transCode',
+    'fecha',
+    'suc',
+    'fpago',
+    'tipodoc',
+    'nop',
+    'estatus',
+    'actions',
+  ];
+  displayedColumnsAuditoria = [
+    'rownum',
+    'ruc',
+    'transCode',
+    'receptor',
+    'tipodoc',
+    'subtotal',
+    'montodesc',
+    'itbmTotal',
+    'total',
+    'exento',
+    'ISC_5%',
+    'subtot_imp2_7%',
+    '%imp2_7%',
+    'subtot_imp3_10%',
+    '%imp3_10%',
+    'subtot_imp4_15%',
+    '%imp4_15%',
+    'actions',
+  ];
+  displayedColumnsAuditoria2 = [
+    'rownum',
+    'ruc',
+    'transCode',
+    'subtotal',
+    'montodesc',
+    'exento',
+    'gravado',
+    'itbms_percent',
+    'itbms',
+    'total',
+    'actions',
+  ];
 
-  constructor(private facturacionDataService: FacturacionDataService, private datePipe: DatePipe, private route: ActivatedRoute) {}
-
+  constructor(
+    private facturacionDataService: FacturacionDataService,
+    private datePipe: DatePipe,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-
-  // const newDate = new Date();
-  // const localizedDateString = newDate.toLocaleDateString("en-GB");
-  // const parts = localizedDateString.split("/");
-  // const formattedDateString = `${parts[1]}/${parts[0]}/${parts[2]}`;
-  // const formattedDate = new Date(formattedDateString);
-  // const formattedDateString2 = this.formatDate(formattedDate);
-  // this.startDateControl.setValue(formattedDateString2)
-  // console.log('Date2>>>>', formattedDateString2);
+    // const newDate = new Date();
+    // const localizedDateString = newDate.toLocaleDateString("en-GB");
+    // const parts = localizedDateString.split("/");
+    // const formattedDateString = `${parts[1]}/${parts[0]}/${parts[2]}`;
+    // const formattedDate = new Date(formattedDateString);
+    // const formattedDateString2 = this.formatDate(formattedDate);
+    // this.startDateControl.setValue(formattedDateString2)
+    // console.log('Date2>>>>', formattedDateString2);
 
     // for(let i=0; EXAMPLE_DATA.length<100; i++) {
     //   let j = this.getRandomInt(6);
     //   EXAMPLE_DATA.push(EXAMPLE_DATA[j]);
     // }
     // console.log(EXAMPLE_DATA);
-
 
     this.filteringForm = new FormGroup({
       startDateControl: this.startDateControl,
@@ -131,57 +188,58 @@ export class FacturacionDataComponent implements OnInit, AfterViewInit, OnDestro
       tipoEstadoControl: new FormControl(),
       tipoSucursalControl: new FormControl(),
       ruc: new FormControl(),
-    })
+    });
 
-
-  // console.log('this.filteringForm>>>>>', this.filteringForm.value.startDateControl);
+    // console.log('this.filteringForm>>>>>', this.filteringForm.value.startDateControl);
 
     this.facturacionDataService.getSucursales();
-    this.datosSucursales = this.facturacionDataService.getDatosSucursalesListener.subscribe(
-      (sucursales => {
+    this.datosSucursales =
+      this.facturacionDataService.getDatosSucursalesListener.subscribe(
+        (sucursales) => {
+          this.sucursales = sucursales.sucursalList;
+        }
+      );
 
-        this.sucursales = sucursales.sucursalList;
-      })
-    );
+    this.formasPago$ = this.facturacionDataService
+      .getFormaPago()
+      .subscribe((formasPago) => {
+        this.formasPago = formasPago;
+      });
 
-  this.formasPago$ = this.facturacionDataService.getFormaPago()
-    .subscribe((formasPago) => {
-      this.formasPago = formasPago;
-    })
+    this.natOperacion$ = this.facturacionDataService
+      .getNatOperacion()
+      .subscribe((natOper) => {
+        this.natOperaciones = natOper;
+      });
 
-  this.natOperacion$ = this.facturacionDataService.getNatOperacion()
-    .subscribe((natOper) => {
-      this.natOperaciones = natOper;
-    })
+    this.tipoDoc$ = this.facturacionDataService
+      .getTipoDoc()
+      .subscribe((tipoDoc) => {
+        this.tipoDocs = tipoDoc;
+      });
 
-  this.tipoDoc$ = this.facturacionDataService.getTipoDoc()
-    .subscribe((tipoDoc) => {
-      this.tipoDocs = tipoDoc;
-    })
-
-  this.feStatus$ = this.facturacionDataService.getFEstatus()
-    .subscribe((feStatus) => {
-      this.feStatusList = feStatus;
-    })
+    this.feStatus$ = this.facturacionDataService
+      .getFEstatus()
+      .subscribe((feStatus) => {
+        this.feStatusList = feStatus;
+      });
 
     // const queryParams = this.route.snapshot.queryParams;
     // console.log('Object.keys>>>>>>>>', Object.keys(this.queryParams).length);
-    if(Object.keys(this.queryParams).length == 0) {
-
+    if (Object.keys(this.queryParams).length == 0) {
       this.getFacturaData(this.filteringData);
 
-      this.facturaData$ = this.facturacionDataService.getFacturasUpdatedListener()
-      .subscribe(facturaData => {
-
-        this.facturaDataList = facturaData.facturas;
-        this.facturasTotalAmount = facturaData.facturasTotal;
-        this.isDataTablaLoaded = facturaData.success;
-        this.resultMessage = facturaData.message;
-        this.isSpinnerLoading = false;
-        this.setTableData();
-      });
+      this.facturaData$ = this.facturacionDataService
+        .getFacturasUpdatedListener()
+        .subscribe((facturaData) => {
+          this.facturaDataList = facturaData.facturas;
+          this.facturasTotalAmount = facturaData.facturasTotal;
+          this.isDataTablaLoaded = facturaData.success;
+          this.resultMessage = facturaData.message;
+          this.isSpinnerLoading = false;
+          this.setTableData();
+        });
     }
-
 
     // this.isDataTablaLoadedSub$ = this.facturacionDataService.getIsDataTablaLoadedListener()
     //   .subscribe(isDataTablaLoaded => {
@@ -189,18 +247,18 @@ export class FacturacionDataComponent implements OnInit, AfterViewInit, OnDestro
 
     //     this.isDataTablaLoaded = isDataTablaLoaded;
     //   })
-  // this.facturaData$ = this.facturacionDataService.getFacturasData(this.filteringData)
-  //   .subscribe((factura) => {
-  //     this.facturaDataList = factura;
-  //     this.facturasTotalAmount = factura.rows
-  //     this.setTableData();
-  //   })
+    // this.facturaData$ = this.facturacionDataService.getFacturasData(this.filteringData)
+    //   .subscribe((factura) => {
+    //     this.facturaDataList = factura;
+    //     this.facturasTotalAmount = factura.rows
+    //     this.setTableData();
+    //   })
   }
 
   ngAfterViewInit(): void {
     // const queryParams = this.route.snapshot.queryParams;
 
-    if(Object.keys(this.queryParams).length != 0) {
+    if (Object.keys(this.queryParams).length != 0) {
       this.setFilter(this.queryParams);
     }
   }
@@ -222,7 +280,9 @@ export class FacturacionDataComponent implements OnInit, AfterViewInit, OnDestro
   resetForm() {
     this.filteringForm.reset();
 
-    this.filteringForm.get('startDateControl')?.setValue(this.getFirstDayOfMonth());
+    this.filteringForm
+      .get('startDateControl')
+      ?.setValue(this.getFirstDayOfMonth());
     this.filteringForm.get('endDateControl')?.setValue(new Date());
   }
 
@@ -240,7 +300,7 @@ export class FacturacionDataComponent implements OnInit, AfterViewInit, OnDestro
 
   onChangePage(pageData: PageEvent) {
     this.isSpinnerLoading = true;
-  // this.facturasTotalAmount = pageData.length;
+    // this.facturasTotalAmount = pageData.length;
     this.currentPage = pageData.pageIndex + 1;
     this.facturasPerPage = pageData.pageSize;
     this.updateDataFactura();
@@ -255,11 +315,13 @@ export class FacturacionDataComponent implements OnInit, AfterViewInit, OnDestro
 
   setTableData() {
     console.log('this.isDataTablaLoaded>>>', this.isDataTablaLoaded);
-    this.dataSource = new MatTableDataSource<IDataFacturaScheme>(this.facturaDataList);
+    this.dataSource = new MatTableDataSource<IDataFacturaScheme>(
+      this.facturaDataList
+    );
     this.table.dataSource = this.dataSource;
     this.table2.dataSource = this.dataSource;
     this.dataSource.sort = this.sort;
-    if(!this.tableDataSet) {
+    if (!this.tableDataSet) {
       this.dataSource.paginator = this.paginator;
       this.tableDataSet = true;
     }
@@ -272,17 +334,15 @@ export class FacturacionDataComponent implements OnInit, AfterViewInit, OnDestro
     this.isSpinnerLoading = true;
     this.updateDataFactura();
     this.getFacturaData(this.filteringData);
-
   }
 
   getFacturaData(filteringData: any) {
-
     this.facturacionDataService.getFacturasData(filteringData);
-      // .subscribe((factura) => {
-      //   this.facturaDataList = factura.facturas;
-      //   this.facturasTotalAmount = factura.facturasTotal;
-      //   this.setTableData();
-      // })
+    // .subscribe((factura) => {
+    //   this.facturaDataList = factura.facturas;
+    //   this.facturasTotalAmount = factura.facturasTotal;
+    //   this.setTableData();
+    // })
   }
 
   updateDataFactura() {
@@ -290,15 +350,15 @@ export class FacturacionDataComponent implements OnInit, AfterViewInit, OnDestro
       i_fechaini: this.filteringForm.value.startDateControl,
       i_fechafin: this.filteringForm.value.endDateControl,
       i_filtrosuc: this.filteringForm.value.tipoSucursalControl,
-      i_filtrocia: 1,                                                 //this.filteringForm.value.tipo  -----> Filtro de empresa
+      i_filtrocia: 1, //this.filteringForm.value.tipo  -----> Filtro de empresa
       ruc: this.filteringForm.value.ruc,
       i_estatus: this.filteringForm.value.tipoEstadoControl,
       i_tipo_op: this.filteringForm.value.tipoOperControl,
       i_tipo_doc: this.filteringForm.value.tipoDocControl,
       i_forma_pago: this.filteringForm.value.formaPagoControl,
       i_pagina: 1,
-      i_registropagina: this.facturasPerPage
-    }
+      i_registropagina: this.facturasPerPage,
+    };
     console.log('this.filteringData>>>>>', this.filteringData);
   }
 
@@ -313,11 +373,10 @@ export class FacturacionDataComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   downloadCaffePDF(facturaNumber: number) {
-
     const isSigned = true;
     facturaNumber = 1024139574;
     // const url = 'https://factura.key-pac.com/KeyPac/Facturacion/ExportZip/' + facturaNumber + '?issigned=' + isSigned;
-    const url = window.location.origin + "/assets/" + facturaNumber + ".pdf";
+    const url = window.location.origin + '/assets/' + facturaNumber + '.pdf';
     const name = 'Pdf name';
     console.log('url>>>>', url);
 
@@ -338,43 +397,52 @@ export class FacturacionDataComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   setFilter(data: any): void {
-console.log("data>>>>", data);
-  switch (data.category) {
-    case 'Aprobado':
-      this.filteringForm.controls['tipoEstadoControl'].setValue('1');
+    console.log('data>>>>', data);
+    switch (data.category) {
+      case 'Aprobado':
+        this.filteringForm.controls['tipoEstadoControl'].setValue('1');
         break;
-    case 'Pendiente':
-      this.filteringForm.controls['tipoEstadoControl'].setValue('3');
+      case 'Pendiente':
+        this.filteringForm.controls['tipoEstadoControl'].setValue('3');
         break;
-    case 'Rechazado':
-      this.filteringForm.controls['tipoEstadoControl'].setValue('2');
+      case 'Rechazado':
+        this.filteringForm.controls['tipoEstadoControl'].setValue('2');
         break;
-    case 'Facturas':
-      this.filteringForm.controls['tipoDocControl'].setValue(['01', '02', '03', '08', '10']);
+      case 'Facturas':
+        this.filteringForm.controls['tipoDocControl'].setValue([
+          '01',
+          '02',
+          '03',
+          '08',
+          '10',
+        ]);
         break;
-    case 'Credito':
-      this.filteringForm.controls['tipoDocControl'].setValue(['04', '06']);
+      case 'Credito':
+        this.filteringForm.controls['tipoDocControl'].setValue(['04', '06']);
         break;
-    case 'Debito':
-      this.filteringForm.controls['tipoDocControl'].setValue(['05', '07']);
+      case 'Debito':
+        this.filteringForm.controls['tipoDocControl'].setValue(['05', '07']);
         break;
-  }
+    }
 
     if (data.date == 3) {
-      this.filteringForm.get('startDateControl')?.setValue(this.getFirstDayOfYear());
-    }
-    else if (data.date == 2) {
-      this.filteringForm.get('startDateControl')?.setValue(this.getFirstDayOfMonth());
-    }
-    else {
+      this.filteringForm
+        .get('startDateControl')
+        ?.setValue(this.getFirstDayOfYear());
+    } else if (data.date == 2) {
+      this.filteringForm
+        .get('startDateControl')
+        ?.setValue(this.getFirstDayOfMonth());
+    } else {
       this.filteringForm.get('startDateControl')?.setValue(new Date());
     }
     this.filteringForm.controls['tipoSucursalControl'].setValue(data.sucursal);
 
     this.updateDataFactura();
     this.getFacturaData(this.filteringData);
-    this.facturaData$ = this.facturacionDataService.getFacturasUpdatedListener()
-      .subscribe(facturaData => {
+    this.facturaData$ = this.facturacionDataService
+      .getFacturasUpdatedListener()
+      .subscribe((facturaData) => {
         this.facturaDataList = facturaData.facturas;
         this.facturasTotalAmount = facturaData.facturasTotal;
         this.isDataTablaLoaded = facturaData.success;
@@ -384,5 +452,3 @@ console.log("data>>>>", data);
       });
   }
 }
-
-

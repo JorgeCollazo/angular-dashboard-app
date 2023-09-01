@@ -296,7 +296,7 @@
                 <!-- ITBM TOTAL Column -->
                 <ng-container matColumnDef="itbmTotal">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>ITBM Total</th>
-                  <td mat-cell *matCellDef="let row">{{row.itbmTotal}}</td>
+                  <td mat-cell *matCellDef="let row">{{row.itbmtotal}}</td>
                 </ng-container>
 
                 <!-- TOTAL Column -->
@@ -312,15 +312,45 @@
                 </ng-container>
 
                 <!-- SubTotalIMP1_5% Column -->
-                <ng-container matColumnDef="subTotalIMP1_5%">
+                <!-- <ng-container matColumnDef="subTotalIMP1_5%">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>SubTotalIMP1(5%)</th>
                   <td mat-cell *matCellDef="let row">{{row.subTotalIMP1_5}}</td>
-                </ng-container>
+                </ng-container> -->
 
                 <!-- ISC_5% Column -->
                 <ng-container matColumnDef="ISC_5%">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>ISC(5%)</th>
-                  <td mat-cell *matCellDef="let row">{{row.ISC_5}}</td>
+                  <td mat-cell *matCellDef="let row">{{row.isC_5}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="subtot_imp2_7%">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Subtotal IMP2(7%)</th>
+                  <td mat-cell *matCellDef="let row">{{row.subimp7}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="%imp2_7%">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>% IMP2(7%)</th>
+                  <td mat-cell *matCellDef="let row">{{row.imp7}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="subtot_imp3_10%">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Subtotal IMP3(10%)</th>
+                  <td mat-cell *matCellDef="let row">{{row.subimp10}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="%imp3_10%">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>% IMP3(10%)</th>
+                  <td mat-cell *matCellDef="let row">{{row.imp10}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="subtot_imp4_15%">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Subtotal IMP4(15%)</th>
+                  <td mat-cell *matCellDef="let row">{{row.subimp15}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="%imp4_15%">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>% IMP4(15%)</th>
+                  <td mat-cell *matCellDef="let row">{{row.imp15}}</td>
                 </ng-container>
 
                 <!-- Actions Column -->
