@@ -139,7 +139,7 @@
   </div>
   <div class="row">
     <div class="col-12">
-      <mat-tab-group>
+      <mat-tab-group (selectedTabChange)="loadTabPanelData($event)">
         <mat-tab label="Transacciones">
           <div class="mat-elevation-z8 table-responsive text-center" id="print-section">
             <div *ngIf="!isDataTablaLoaded && !isSpinnerLoading" class="d-flex align-items-center flex-column">
@@ -395,19 +395,7 @@
                 <!-- Nro. Column -->
                 <ng-container matColumnDef="rownum">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>Nro.</th>
-                  <td mat-cell *matCellDef="let row">{{row.rownum}}</td>
-                </ng-container>
-
-                <!-- RUC Column -->
-                <ng-container matColumnDef="ruc">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>RUC</th>
-                  <td mat-cell *matCellDef="let row">{{ row.ruc }}</td>
-                </ng-container>
-
-                <!-- Transaccion Codigo Column -->
-                <ng-container matColumnDef="transCode">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Código Transacción</th>
-                  <td mat-cell *matCellDef="let row">{{row.numeroFE}}</td>
+                  <td mat-cell *matCellDef="let row">{{row.pageIndex}}</td>
                 </ng-container>
 
                 <!-- Monto Desc. Column -->
@@ -437,7 +425,7 @@
                 <!-- ITBMS Perc. Column -->
                 <ng-container matColumnDef="itbms_percent">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>Porciento ITBMS</th>
-                  <td mat-cell *matCellDef="let row">{{row.itbms_percent}}</td>
+                  <td mat-cell *matCellDef="let row">{{row.porc_ibms}}</td>
                 </ng-container>
 
                 <!-- ITBMS Column -->
@@ -452,21 +440,6 @@
                   <td mat-cell *matCellDef="let row">{{row.total}}</td>
                 </ng-container>
 
-                <!-- Actions Column -->
-                <ng-container matColumnDef="actions">
-                  <th mat-header-cell *matHeaderCellDef>Acciones</th>
-                  <td mat-cell *matCellDef="let row" class="actions-column">
-                    <!-- <button mat-icon-button matTooltip="Envía Correo CAFE">
-                      <mat-icon> mail </mat-icon>
-                    </button> -->
-                    <button mat-icon-button matTooltip="Descargar CAFE/CUFE" (click)="downloadCaffePDF(row.numeroFE)">
-                      <mat-icon>cloud_download</mat-icon>
-                    </button>
-                    <!-- <button mat-icon-button matTooltip="Subir Factura DGI">
-                      <mat-icon>upload</mat-icon>
-                    </button> -->
-                  </td>
-                </ng-container>
                 <tr mat-header-row *matHeaderRowDef="displayedColumnsAuditoria2"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumnsAuditoria2;"></tr>
               </table>

@@ -11,6 +11,7 @@ import { PGlobal } from '../globales';
 import { IDataSchemeCommon } from 'src/app/interfaces/common.interface';
 import { IDataFacturaScheme } from 'src/app/interfaces/facturaData.interface';
 import { FormGroup } from '@angular/forms';
+import { IResumenData } from 'src/app/interfaces/IResumenData.interface';
 
 const BACKEND_URL = environment.SRV + "api/Interface/";
 const BACKEND_URL_CONSULTAFE = environment.SRV + "api/ConsultaFE/";
@@ -132,7 +133,7 @@ export class FacturacionDataService {
     .subscribe(
       {
       next: res => {console.log('res>>>>', res);
-        this.sucursales = res.sucursalList ?? [];	
+        this.sucursales = res.sucursalList ?? [];
         this.datosSucursalSub.next({success: res.success, message: res.message, sucursalList: [...this.sucursales]});
       },
       error: err => {
@@ -217,10 +218,13 @@ export class FacturacionDataService {
       downloadLink.click();
     });
   }
+
+  getFacturasTotales(filteringData: any) {
+    return this.http.post<{success: boolean, rows: number, message: string, consultaFE_ResumenList: IResumenData[]}>(BACKEND_URL_CONSULTAFE + 'GetResumenFEImp', filteringData)
+      .pipe(
+        map((response) => response['consultaFE_ResumenList']),
+      )
+  }
 }
 
-// updatedFacturas => {
-//   // console.log('updatedFactura>>>>>', updatedFacturas);
 
-
-// }

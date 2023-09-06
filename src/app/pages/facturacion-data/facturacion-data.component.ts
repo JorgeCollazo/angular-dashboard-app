@@ -28,6 +28,8 @@ import { EXAMPLE_DATA } from './facturacion-data-datasource';
 import { FacturacionDataService } from '../../services/facturacion-data/facturacion-data.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute } from '@angular/router';
+import { MatTabChangeEvent } from '@angular/material/tabs';
+import { IResumenData } from 'src/app/interfaces/IResumenData.interface';
 @Component({
   selector: 'app-facturacion-data',
   templateUrl: './facturacion-data.component.html',
@@ -40,9 +42,13 @@ export class FacturacionDataComponent
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<IDataFacturaScheme>;
   @ViewChild('table2') table2!: MatTable<IDataFacturaScheme>;
+  @ViewChild('table3') table3!: MatTable<IResumenData>;
 
   dataSource: MatTableDataSource<IDataFacturaScheme> =
     new MatTableDataSource<IDataFacturaScheme>();
+
+  dataSourceTotales: MatTableDataSource<IResumenData> =
+  new MatTableDataSource<IResumenData>();
 
   filteringForm!: FormGroup;
   fecha_inicio: Date = new Date();
@@ -63,6 +69,7 @@ export class FacturacionDataComponent
   tipoDocs: IDataSchemeCommon[] = [];
   feStatusList: IDataSchemeCommon[] = [];
   facturaDataList: IDataFacturaScheme[] = [];
+  facturasTotales: IResumenData[] = [];
   tempDate: string = new Date().toLocaleDateString('en-GB');
   predefinedDate = this.getFirstDayOfMonth();
   startDateControl: FormControl = new FormControl(this.predefinedDate, [
@@ -79,6 +86,8 @@ export class FacturacionDataComponent
   private tipoDoc$: Subscription = new Subscription();
   private feStatus$: Subscription = new Subscription();
   private facturaData$: Subscription = new Subscription();
+  private totalesFacturas$: Subscription = new Subscription();
+
   tableDataSet: boolean = false;
   isDataTablaLoaded: boolean = false;
   resultMessage: string = '';
@@ -145,8 +154,6 @@ export class FacturacionDataComponent
   ];
   displayedColumnsAuditoria2 = [
     'rownum',
-    'ruc',
-    'transCode',
     'subtotal',
     'montodesc',
     'exento',
@@ -154,7 +161,6 @@ export class FacturacionDataComponent
     'itbms_percent',
     'itbms',
     'total',
-    'actions',
   ];
 
   constructor(
@@ -270,6 +276,7 @@ export class FacturacionDataComponent
     this.datosSucursales.unsubscribe();
     this.feStatus$.unsubscribe();
     this.facturaData$.unsubscribe();
+    this.totalesFacturas$.unsubscribe();
   }
 
   applyFilter(event: Event): void {
@@ -318,8 +325,14 @@ export class FacturacionDataComponent
     this.dataSource = new MatTableDataSource<IDataFacturaScheme>(
       this.facturaDataList
     );
+    this.dataSourceTotales = new MatTableDataSource<IResumenData>(
+      this.facturasTotales
+    );
+
     this.table.dataSource = this.dataSource;
     this.table2.dataSource = this.dataSource;
+    this.table3.dataSource = this.dataSourceTotales;
+
     this.dataSource.sort = this.sort;
     if (!this.tableDataSet) {
       this.dataSource.paginator = this.paginator;
@@ -334,6 +347,7 @@ export class FacturacionDataComponent
     this.isSpinnerLoading = true;
     this.updateDataFactura();
     this.getFacturaData(this.filteringData);
+    this.getFacturasTotales()
   }
 
   getFacturaData(filteringData: any) {
@@ -451,4 +465,22 @@ export class FacturacionDataComponent
         this.setTableData();
       });
   }
+  loadTabPanelData(event: MatTabChangeEvent): void {
+    console.log('jjo', event);
+    this.getFacturasTotales();
+    /* this.totalesFacturas$ =  */
+    // this.formasPago$ = this.facturacionDataService
+    // .getFormaPago()
+    // .subscribe((formasPago) => {
+    //   this.formasPago = formasPago;
+    // });
+  }
+
+  getFacturasTotales() {
+    this.updateDataFactura();
+    this.totalesFacturas$ = this.facturacionDataService.getFacturasTotales(this.filteringData)
+      .subscribe((totales) => {
+        this.facturasTotales = totales;
+      })
+    }
 }
