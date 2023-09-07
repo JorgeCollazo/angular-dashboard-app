@@ -136,8 +136,8 @@ export class FacturacionDataComponent
     'rownum',
     'ruc',
     'transCode',
-    'receptor',
     'tipodoc',
+    'receptor',
     'subtotal',
     'montodesc',
     'itbmTotal',
@@ -170,20 +170,6 @@ export class FacturacionDataComponent
   ) {}
 
   ngOnInit(): void {
-    // const newDate = new Date();
-    // const localizedDateString = newDate.toLocaleDateString("en-GB");
-    // const parts = localizedDateString.split("/");
-    // const formattedDateString = `${parts[1]}/${parts[0]}/${parts[2]}`;
-    // const formattedDate = new Date(formattedDateString);
-    // const formattedDateString2 = this.formatDate(formattedDate);
-    // this.startDateControl.setValue(formattedDateString2)
-    // console.log('Date2>>>>', formattedDateString2);
-
-    // for(let i=0; EXAMPLE_DATA.length<100; i++) {
-    //   let j = this.getRandomInt(6);
-    //   EXAMPLE_DATA.push(EXAMPLE_DATA[j]);
-    // }
-    // console.log(EXAMPLE_DATA);
 
     this.filteringForm = new FormGroup({
       startDateControl: this.startDateControl,
@@ -195,8 +181,6 @@ export class FacturacionDataComponent
       tipoSucursalControl: new FormControl(),
       ruc: new FormControl(),
     });
-
-    // console.log('this.filteringForm>>>>>', this.filteringForm.value.startDateControl);
 
     this.facturacionDataService.getSucursales();
     this.datosSucursales =
@@ -230,8 +214,6 @@ export class FacturacionDataComponent
         this.feStatusList = feStatus;
       });
 
-    // const queryParams = this.route.snapshot.queryParams;
-    // console.log('Object.keys>>>>>>>>', Object.keys(this.queryParams).length);
     if (Object.keys(this.queryParams).length == 0) {
       this.getFacturaData(this.filteringData);
 
@@ -247,22 +229,9 @@ export class FacturacionDataComponent
         });
     }
 
-    // this.isDataTablaLoadedSub$ = this.facturacionDataService.getIsDataTablaLoadedListener()
-    //   .subscribe(isDataTablaLoaded => {
-    //     console.log('isDataTablaLoaded>>>>', isDataTablaLoaded);
-
-    //     this.isDataTablaLoaded = isDataTablaLoaded;
-    //   })
-    // this.facturaData$ = this.facturacionDataService.getFacturasData(this.filteringData)
-    //   .subscribe((factura) => {
-    //     this.facturaDataList = factura;
-    //     this.facturasTotalAmount = factura.rows
-    //     this.setTableData();
-    //   })
   }
 
   ngAfterViewInit(): void {
-    // const queryParams = this.route.snapshot.queryParams;
 
     if (Object.keys(this.queryParams).length != 0) {
       this.setFilter(this.queryParams);
@@ -464,16 +433,13 @@ export class FacturacionDataComponent
         this.isSpinnerLoading = false;
         this.setTableData();
       });
+      this.totalesFacturas$ = this.facturacionDataService.getFacturasTotales(this.filteringData)
+      .subscribe((totales) => {
+        this.facturasTotales = totales;
+      })
   }
-  loadTabPanelData(event: MatTabChangeEvent): void {
-    console.log('jjo', event);
+  onLoadTabPanel3Data(event: MatTabChangeEvent): void {
     this.getFacturasTotales();
-    /* this.totalesFacturas$ =  */
-    // this.formasPago$ = this.facturacionDataService
-    // .getFormaPago()
-    // .subscribe((formasPago) => {
-    //   this.formasPago = formasPago;
-    // });
   }
 
   getFacturasTotales() {
