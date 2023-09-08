@@ -30,6 +30,17 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute } from '@angular/router';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { IResumenData } from 'src/app/interfaces/IResumenData.interface';
+
+// import pdfMake from 'pdfmake/build/pdfmake';
+// import pdfFonts from 'pdfmake/build/vfs_fonts';
+// pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import { MatSelect } from '@angular/material/select';
+
+(<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
+
 @Component({
   selector: 'app-facturacion-data',
   templateUrl: './facturacion-data.component.html',
@@ -43,22 +54,32 @@ export class FacturacionDataComponent
   @ViewChild(MatTable) table!: MatTable<IDataFacturaScheme>;
   @ViewChild('table2') table2!: MatTable<IDataFacturaScheme>;
   @ViewChild('table3') table3!: MatTable<IResumenData>;
+  @ViewChild('tipo_pago_select') tipo_pago_select!: MatSelect;
+  @ViewChild('tipo_operacion_select') tipo_operacion_select!: MatSelect;
+  @ViewChild('estado_select') estado_select!: MatSelect;
+  @ViewChild('sucursal_select') sucursal_select!: MatSelect;
+  @ViewChild('tipo_doc_select') tipo_doc_select!: MatSelect;
 
   dataSource: MatTableDataSource<IDataFacturaScheme> =
     new MatTableDataSource<IDataFacturaScheme>();
 
   dataSourceTotales: MatTableDataSource<IResumenData> =
-  new MatTableDataSource<IResumenData>();
+    new MatTableDataSource<IResumenData>();
 
   filteringForm!: FormGroup;
   fecha_inicio: Date = new Date();
   fecha_fin: Date = new Date();
   sucursal_id: string = '';
+  sucursal_label: string = 'Todos';
   evento: string = '';
   t_pago: string = '';
+  t_pago_label: string = 'Todos';
   tipo_doc: string = '';
+  tipo_doc_label: string = '';
   tipo_op: string = '';
+  tipo_op_label: string = 'Todos';
   status: string = '';
+  status_label: string = 'Todos';
   facturasPerPage: number = 25;
   currentPage: number = 1;
   pageSizeOptions = [25, 50, 100];
@@ -108,16 +129,6 @@ export class FacturacionDataComponent
     i_pagina: this.currentPage,
     i_registropagina: this.facturasPerPage,
   };
-
-  // EXAMPLE_DATA: FacturacionDataItem[] = [
-  //   {nro: 1, fecha_creacion: new Date(), fecha_inicio: new Date(), t_pago: 51, t_doc: 15, t_op: 71, status: 1, evento: 1, sucursal: 'Xtra'},
-  //   {nro: 2, fecha_creacion: new Date(), fecha_inicio: new Date(), t_pago: 52, t_doc: 25, t_op: 72, status: 2, evento: 2, sucursal: 'Campeon'},
-  //   {nro: 3, fecha_creacion: new Date(), fecha_inicio: new Date(), t_pago: 53, t_doc: 35, t_op: 73, status: 3, evento: 3, sucursal: 'El Costo'},
-  //   {nro: 4, fecha_creacion: new Date(), fecha_inicio: new Date(), t_pago: 54, t_doc: 45, t_op: 74, status: 4, evento: 4, sucursal: 'Oca Loca'},
-  //   {nro: 5, fecha_creacion: new Date(), fecha_inicio: new Date(), t_pago: 55, t_doc: 55, t_op: 75, status: 5, evento: 5, sucursal: 'Conway'},
-  //   {nro: 6, fecha_creacion: new Date(), fecha_inicio: new Date(), t_pago: 56, t_doc: 65, t_op: 76, status: 6, evento: 6, sucursal: 'Titan'},
-  //   {nro: 7, fecha_creacion: new Date(), fecha_inicio: new Date(), t_pago: 57, t_doc: 75, t_op: 77, status: 7, evento: 7, sucursal: 'Super 99'},
-  // ]
 
   /* Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = [
@@ -170,7 +181,6 @@ export class FacturacionDataComponent
   ) {}
 
   ngOnInit(): void {
-
     this.filteringForm = new FormGroup({
       startDateControl: this.startDateControl,
       endDateControl: this.endDateControl,
@@ -228,11 +238,9 @@ export class FacturacionDataComponent
           this.setTableData();
         });
     }
-
   }
 
   ngAfterViewInit(): void {
-
     if (Object.keys(this.queryParams).length != 0) {
       this.setFilter(this.queryParams);
     }
@@ -316,7 +324,7 @@ export class FacturacionDataComponent
     this.isSpinnerLoading = true;
     this.updateDataFactura();
     this.getFacturaData(this.filteringData);
-    this.getFacturasTotales()
+    this.getFacturasTotales();
   }
 
   getFacturaData(filteringData: any) {
@@ -384,12 +392,15 @@ export class FacturacionDataComponent
     switch (data.category) {
       case 'Aprobado':
         this.filteringForm.controls['tipoEstadoControl'].setValue('1');
+        this.status_label = 'Aprobado';
         break;
       case 'Pendiente':
         this.filteringForm.controls['tipoEstadoControl'].setValue('3');
+        this.status_label = 'Pendiente';
         break;
       case 'Rechazado':
         this.filteringForm.controls['tipoEstadoControl'].setValue('2');
+        this.status_label = 'Rechazado';
         break;
       case 'Facturas':
         this.filteringForm.controls['tipoDocControl'].setValue([
@@ -433,10 +444,11 @@ export class FacturacionDataComponent
         this.isSpinnerLoading = false;
         this.setTableData();
       });
-      this.totalesFacturas$ = this.facturacionDataService.getFacturasTotales(this.filteringData)
+    this.totalesFacturas$ = this.facturacionDataService
+      .getFacturasTotales(this.filteringData)
       .subscribe((totales) => {
         this.facturasTotales = totales;
-      })
+      });
   }
   onLoadTabPanel3Data(event: MatTabChangeEvent): void {
     this.getFacturasTotales();
@@ -444,9 +456,140 @@ export class FacturacionDataComponent
 
   getFacturasTotales() {
     this.updateDataFactura();
-    this.totalesFacturas$ = this.facturacionDataService.getFacturasTotales(this.filteringData)
+    this.totalesFacturas$ = this.facturacionDataService
+      .getFacturasTotales(this.filteringData)
       .subscribe((totales) => {
         this.facturasTotales = totales;
-      })
-    }
+      });
+  }
+
+  createPdf() {
+    console.log('this.filteringData>>>>>>>>>', this.filteringData);
+    console.log('this.filteringForm>>>>>>>>>', this.filteringForm);
+    console.log('facturaDataList>>>>>>>>>', this.facturaDataList);
+
+    const dynamicData = [
+      ['John', 30],
+      ['Alice', 25],
+      ['Bob', 40],
+    ];
+
+    const pdfDefinition: any = {
+      content: [
+        {
+          text: `Reporte de Transacciones \n \n`,
+          style: 'header',
+        },
+        {
+          text: [
+            { text: 'Sucursal: ', style: 'subheader' },
+            { text: this.sucursal_label + '\n \n', style: 'sub' },
+          ],
+        },
+        {
+          style: 'tableExample',
+          table: {
+            widths: [100, 100, 100, '*'],
+            body: [
+              [
+                {
+                  text:[
+                    {text: 'Fecha inicio: ', bold: true}, this.filteringData.i_fechaini.toLocaleDateString(),
+                    {text: '      Tipo de Pago: ', bold: true}, this.t_pago_label,
+                    {text: '      Tipo de Operación: ', bold: true}, this.tipo_op_label,
+                    {text: '      Estado: ', bold: true}, this.status_label,
+                  ],
+                  colSpan: 4,
+                  border: [true, true, true, false],
+
+                },
+                '',
+                '',
+                '',
+              ],
+              [
+                {
+                  text:[
+                    {text: 'Fecha fin: ', bold: true}, this.filteringData.i_fechafin.toLocaleDateString(),
+                    {text: '      RUC:  ', bold: true}, this.filteringForm.get('ruc')?.value ?? '-',
+                    {text: '      Tipo de Pago: ', bold: true}, this.status_label,
+
+                  ],
+                  colSpan: 4,
+                  border: [true, false, true, true],
+                },
+                '',
+                '',
+                '',
+              ]
+            ],
+          },
+        },
+        {
+          style: 'tableExample',
+          table: {
+            body: [
+              ['Nro.', 'RUC', 'Cod.Transacción', 'Fecha Emisión', 'Sucursal', 'Tipo Pago', 'Tipo Documento', 'Tipo Operación', 'Estado'],
+              ['Sample value 1', 'Sample value 2', 'Sample value 3', 'Sample value 3', 'Sample value 3', 'Sample value 3', 'Sample value 3', 'Sample value 3', 'Sample value 3'],
+            ]
+          },
+          layout: {
+            fillColor: function (rowIndex: any, node:any , columnIndex: any) {
+              return (rowIndex === 0) ? '#08c49e' : null;
+            }
+          }
+        },
+      ],
+
+      styles: {
+        header: {
+          alignment: 'center',
+          bold: true,
+          fontSize: '16',
+        },
+        subheader: {
+          alignment: 'center',
+          fontSize: '14',
+          bold: true,
+        },
+        sub: {
+          alignment: 'center',
+          fontSize: '14',
+        },
+        tableExample: {
+          margin: [0, 5, 0, 15],
+          fontSize: '10',
+        },
+      },
+    };
+
+    const pdf = pdfMake.createPdf(pdfDefinition);
+    pdf.open();
+  }
+
+  onSelectChangeTipoPago(): void {
+    this.t_pago_label = this.tipo_pago_select.triggerValue;
+  }
+
+  onSelectChangeTipoOperacion(): void {
+    this.tipo_op_label = this.tipo_operacion_select.triggerValue;
+  }
+
+  onSelectChangeEstado(): void {
+    this.status_label = this.estado_select.triggerValue;
+  }
+
+  onSelectChangeSucursal(): void {
+    this.sucursal_label = this.sucursal_select.triggerValue;
+  }
+  selectedLabels: string[] = [];
+  onSelectChangeTipoDoc(event: any): void {
+    console.log('this.filteringForm>>>>', this.filteringForm);
+    console.log('event>>>>', event);
+    this.tipo_doc_label = this.tipo_doc_select.triggerValue;
+
+    this.selectedLabels = event.value.map((option: any) => option.name);
+    console.log('selectedLabels>>>>', this.selectedLabels);
+  }
+
 }
