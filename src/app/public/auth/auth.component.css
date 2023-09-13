@@ -30,7 +30,7 @@
 
 .custom-container {
   margin: auto;
-  background-image: url('/assets/img/bg/bg-facturacion.png');
+  background-image: url('../../../assets/img/bg/bg-facturacion.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -98,7 +98,7 @@ mat-card {
     margin-bottom: 3rem;
   }
   .custom-container {
-    background-image: url('/assets/img/bg/bg-facturacion.png');
+    background-image: url('../../../assets/img/bg/bg-facturacion.png');
   }
 
   /* .custom-mat-icon {

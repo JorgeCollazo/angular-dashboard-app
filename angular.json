@@ -21,7 +21,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": ["lodash"],
-            "outputPath": "dist/icom-conteo-2023-web",
+            "outputPath": "dist/KeyPacDasboard",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",

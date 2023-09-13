@@ -365,11 +365,16 @@ export class FacturacionDataComponent
 
   downloadCaffePDF(facturaNumber: number) {
     const isSigned = true;
-    facturaNumber = 1024139574;
-    // const url = 'https://factura.key-pac.com/KeyPac/Facturacion/ExportZip/' + facturaNumber + '?issigned=' + isSigned;
-    const url = window.location.origin + '/assets/' + facturaNumber + '.pdf';
+    // facturaNumber = 1024139574;
+    const url =
+      'https://app.key-pac.com/KeyPacPre/Facturacion/ExportZip/' +
+      facturaNumber +
+      '?issigned=' +
+      isSigned;
+    // const url = window.location.origin + '/assets/' + facturaNumber + '.pdf';
     const name = 'Pdf name';
     console.log('url>>>>', url);
+    console.log('facturaNumber>>>>', facturaNumber);
 
     this.facturacionDataService.downloadCaffePDF(url, name);
   }
@@ -468,11 +473,21 @@ export class FacturacionDataComponent
     console.log('this.filteringForm>>>>>>>>>', this.filteringForm);
     console.log('facturaDataList>>>>>>>>>', this.facturaDataList);
 
-    const dynamicData = [
-      ['John', 30],
-      ['Alice', 25],
-      ['Bob', 40],
-    ];
+    const newArray = this.facturaDataList.map((obj) => {
+      return [
+        obj.rownum,
+        obj.numeroFE,
+        obj.suc,
+        new Date(obj.fecha).toLocaleDateString(),
+        obj.tipodoc,
+        obj.nop,
+        obj.fpago,
+        obj.estatus,
+        obj.ruc,
+      ];
+    });
+
+    console.log('tableData>>>>>>>>>', newArray);
 
     const pdfDefinition: any = {
       content: [
@@ -489,55 +504,143 @@ export class FacturacionDataComponent
         {
           style: 'tableExample',
           table: {
-            widths: [100, 100, 100, '*'],
+            widths: ['*', '*', '*', '*', '*', '*', '*', '*'],
+            colSpan: 3,
             body: [
               [
-                {
-                  text:[
-                    {text: 'Fecha inicio: ', bold: true}, this.filteringData.i_fechaini.toLocaleDateString(),
-                    {text: '      Tipo de Pago: ', bold: true}, this.t_pago_label,
-                    {text: '      Tipo de Operación: ', bold: true}, this.tipo_op_label,
-                    {text: '      Estado: ', bold: true}, this.status_label,
-                  ],
-                  colSpan: 4,
-                  border: [true, true, true, false],
-
-                },
-                '',
+                { text: 'Fecha inicio: ', bold: true },
+                this.filteringData.i_fechaini.toLocaleDateString(),
+                { text: '      Tipo de Pago: ', bold: true },
+                this.t_pago_label,
+                { text: '      Tipo de Operación: ', bold: true },
+                this.tipo_op_label,
+                { text: '      Estado: ', bold: true },
+                this.status_label,
+              ],
+              [
+                { text: 'Fecha fin: ', bold: true },
+                this.filteringData.i_fechafin.toLocaleDateString(),
+                { text: '      RUC:  ', bold: true },
+                this.filteringForm.get('ruc')?.value ?? '-',
+                { text: '      Tipo de Pago: ', bold: true },
+                this.status_label,
                 '',
                 '',
               ],
-              [
-                {
-                  text:[
-                    {text: 'Fecha fin: ', bold: true}, this.filteringData.i_fechafin.toLocaleDateString(),
-                    {text: '      RUC:  ', bold: true}, this.filteringForm.get('ruc')?.value ?? '-',
-                    {text: '      Tipo de Pago: ', bold: true}, this.status_label,
-
-                  ],
-                  colSpan: 4,
-                  border: [true, false, true, true],
-                },
-                '',
-                '',
-                '',
-              ]
             ],
+            // body: [
+            //   [
+            //     {
+            //       text:[
+            //         {text: 'Fecha inicio: ', bold: true}, this.filteringData.i_fechaini.toLocaleDateString(),
+            //         {text: '      Tipo de Pago: ', bold: true}, this.t_pago_label,
+            //         {text: '      Tipo de Operación: ', bold: true}, this.tipo_op_label,
+            //         {text: '      Estado: ', bold: true}, this.status_label,
+            //       ],
+            //       colSpan: 4,
+            //       border: [true, true, true, false],
+
+            //     },
+            //     '',
+            //     '',
+            //     '',
+            //   ],
+            //   [
+            //     {
+            //       text:[
+            //         {text: 'Fecha fin: ', bold: true}, this.filteringData.i_fechafin.toLocaleDateString(),
+            //         {text: '      RUC:  ', bold: true}, this.filteringForm.get('ruc')?.value ?? '-',
+            //         {text: '      Tipo de Pago: ', bold: true}, this.status_label,
+
+            //       ],
+            //       colSpan: 4,
+            //       border: [true, false, true, true],
+            //     },
+            //     '',
+            //     '',
+            //     '',
+            //   ]
+            // ],
           },
         },
         {
           style: 'tableExample',
           table: {
             body: [
-              ['Nro.', 'RUC', 'Cod.Transacción', 'Fecha Emisión', 'Sucursal', 'Tipo Pago', 'Tipo Documento', 'Tipo Operación', 'Estado'],
-              ['Sample value 1', 'Sample value 2', 'Sample value 3', 'Sample value 3', 'Sample value 3', 'Sample value 3', 'Sample value 3', 'Sample value 3', 'Sample value 3'],
-            ]
+              [
+                'Nro.',
+                'RUC',
+                'Cod.Transacción',
+                'Fecha Emisión',
+                'Sucursal',
+                'Tipo Pago',
+                'Tipo Documento',
+                'Tipo Operación',
+                'Estado',
+              ],
+              ...newArray,
+            ],
           },
           layout: {
-            fillColor: function (rowIndex: any, node:any , columnIndex: any) {
-              return (rowIndex === 0) ? '#08c49e' : null;
-            }
-          }
+            fillColor: function (rowIndex: any, node: any, columnIndex: any) {
+              return rowIndex === 0 ? '#08c49e' : null;
+            },
+          },
+        },
+        {
+          style: 'tableExample',
+          table: {
+            body: [
+              [
+                'Nro.',
+                'RUC',
+                'Cod.Transacción',
+                'Tipo Documento',
+                'Receptor',
+                'Subtotal',
+                'Monto Descuento',
+                'ITBM Total',
+                'Total',
+                'Exento',
+                'ISC_5%',
+                'Subtot_imp2_7%',
+                '%imp2_7%',
+                'subtot_imp3_10%',
+                '%imp3_10%',
+                'Subtot_imp4_15%',
+                '%imp4_15%',
+              ],
+              // ...newArray,
+            ],
+          },
+          layout: {
+            fillColor: function (rowIndex: any, node: any, columnIndex: any) {
+              return rowIndex === 0 ? '#08c49e' : null;
+            },
+          },
+        },
+        {
+          style: 'tableExample',
+          table: {
+            body: [
+              [
+                'Nro.',
+                'Subtotal',
+                'Monto Desc',
+                'exento',
+                'Gravado',
+                'ITBMS Porciento',
+                'ITBMS',
+                'Total',
+              ],
+
+            ],
+          },
+          layout: {
+            fillColor: function (rowIndex: any, node: any, columnIndex: any) {
+              return rowIndex === 0 ? '#08c49e' : null;
+            },
+          },
         },
       ],
 
@@ -591,5 +694,4 @@ export class FacturacionDataComponent
     this.selectedLabels = event.value.map((option: any) => option.name);
     console.log('selectedLabels>>>>', this.selectedLabels);
   }
-
 }

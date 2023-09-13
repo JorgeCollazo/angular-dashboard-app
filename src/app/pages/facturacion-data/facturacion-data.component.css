@@ -10,6 +10,10 @@ mat-chip {
   color: white !important;
 }
 
+mat-cell {
+  min-width: 110px;
+}
+
 #export-button-ID {
   width: 100%;
 	align-self: center;

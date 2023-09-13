@@ -9,5 +9,6 @@ export interface IDataFacturaScheme {
   nop: string,
   fpago: string,
   estatus: string,
+  ruc: string,
 }
 
