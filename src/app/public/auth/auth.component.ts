@@ -51,7 +51,7 @@ export class AuthComponent implements OnInit {
 
   /* Metodo para la autenticacion */
   async btnAuth() {
-
+    this.router.navigate(['./app/pages/dashboard']); return
     this.loading = true;
     let datos: Login = new Login;
 

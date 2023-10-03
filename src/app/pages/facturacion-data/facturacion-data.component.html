@@ -125,8 +125,8 @@
       <button mat-raised-button [matMenuTriggerFor]="menu" [disabled]="!isDataTablaLoaded" color="primary" id="export-button-ID">Exportar <mat-icon>picture_as_pdf</mat-icon></button>
       <mat-menu #menu="matMenu">
         <button mat-menu-item (click)="createPdf()">PDF</button>
-        <button mat-menu-item>CSV</button>
-        <button mat-menu-item>XLSX</button>
+        <button mat-menu-item (click)="createXLSX()">XLSX</button>
+        <!-- <button mat-menu-item>CSV</button> -->
       </mat-menu>
     </div>
     <div class="col-12 col-sm-4 col-lg-3 col-xl-2">
@@ -250,7 +250,7 @@
             </div>
             <mat-spinner [diameter]="130" *ngIf="isSpinnerLoading" style="margin: auto;" class="my-3"></mat-spinner>
             <div [style.display]="(isDataTablaLoaded && !isSpinnerLoading)? 'block' : 'none'">
-              <table mat-table #table2 class="full-width-table table-responsive" matSort aria-label="Elements">
+              <table mat-table #table2 class="full-width-table table-responsive" matSort aria-label="Elements" id="facturasTableID">
                 <!-- Nro. Column -->
                 <ng-container matColumnDef="rownum">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>Nro.</th>

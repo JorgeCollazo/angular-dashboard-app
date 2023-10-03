@@ -38,6 +38,7 @@ import { IResumenData } from 'src/app/interfaces/IResumenData.interface';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { MatSelect } from '@angular/material/select';
+import * as XLSX from 'xlsx';
 
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
 
@@ -173,10 +174,10 @@ export class FacturacionDataComponent
     'itbms',
     'total',
   ];
+  
 
   constructor(
     private facturacionDataService: FacturacionDataService,
-    private datePipe: DatePipe,
     private route: ActivatedRoute
   ) {}
 
@@ -668,6 +669,17 @@ export class FacturacionDataComponent
 
     const pdf = pdfMake.createPdf(pdfDefinition);
     pdf.open();
+  }
+
+  createXLSX() {
+
+    const element = document.getElementById('facturasTableID');
+
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet');
+    XLSX.writeFile(wb, 'SheetName')
   }
 
   onSelectChangeTipoPago(): void {
